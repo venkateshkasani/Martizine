@@ -11,14 +11,15 @@ export default function Home() {
         queryKey:['getAllCourses'],
         queryFn:() => getCourses()
     })
+  const baseurl = process.env.NEXT_PUBLIC_BASE_URL
+  console.log('baseurl',baseurl)
   return (
     <div className="h-[100vh] mainDiv">
       <StandardHeading title="Select your stream!" />
       <Streams />
       <div>
-        {streams.data?.map((obj) => <p>{obj.course}</p>)}
+        {streams.data?.map((obj,index) => <p key={index} className="text-black">{obj.course}</p>)}
       </div>
-      
     </div>
   );
 }

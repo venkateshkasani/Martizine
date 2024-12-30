@@ -9,12 +9,12 @@ interface responseType {
     _id:string
 }
 
-export const getCourses = async () => {
+export const getCourses = async ()  => {
     try {
-        const response = await axiosInstance.get('/streams')
-        return response;
+        const response = await axiosInstance.get<responseType[]>('/streams')
+        return response.data;
     } catch (e) {
-        console.error("Error fetching stream resources")
+        console.error("Error fetching stream resources",e)
         throw new Error("Failed to fetch stream resources")
     }
 }
