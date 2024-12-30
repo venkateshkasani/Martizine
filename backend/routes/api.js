@@ -2,7 +2,7 @@ const client = require('../index');
 const express = require('express');
 const router = express.Router();
 const getSubjectNames = require('../models/main')
-const styleModel = require('../models/dummy')
+const subData = require('../dataset/subject')
 
 async function getSubjects() {
     try {
@@ -17,17 +17,11 @@ async function getSubjects() {
     }
 }
 
-router.get('/sss',async (req,res) => {
+router.get('/streams',async (req,res) => {
     const data = await getSubjects();
     console.log(data.map((d)  => d.course));
     res.json(data)
 })
 
-router.post('/dummy',async (req,res) => {
-    const data = [{name:"venkatesh",uploadedAt:new Date()},{name:"harish",uploadedAt:new Date()}]
-    await styleModel.insertMany(data);
-    console.log("Inserted")
-    res.json({"ns":"Successfully inserted"})
-})
 
 module.exports = router;

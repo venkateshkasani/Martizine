@@ -2,6 +2,9 @@ const mongoose = require('mongoose')
 
 // Define the schema for sem_subjects
 const semSubjectsSchema = new mongoose.Schema({
+  course:String,
+  uploadedAt:String,
+  sem_subjects:{
   sem1: [String],
   sem2: [String],
   sem3: [String],
@@ -10,6 +13,7 @@ const semSubjectsSchema = new mongoose.Schema({
   sem6: [String],
   sem7: [String],
   sem8: [String]
+  }
 },{
   collection:"subject_names_semwise"
 });
