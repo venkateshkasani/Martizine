@@ -1,3 +1,4 @@
+'use client'
 import { Card } from "@/components/ui/card"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
@@ -15,7 +16,6 @@ import {
    SelectContent,
    SelectGroup,
    SelectItem,
-   SelectLabel,
    SelectTrigger,
    SelectValue,
  } from "@/components/ui/select"
@@ -29,7 +29,7 @@ const Streams = () => {
    subject:''
   })
   return (
-    <section className="w-full">
+    <section className="w-full streams">
         <div className="grid grid-cols-2 md:grid-cols-3 w-[100vw] px-2">
         <Card className="shadow-lg bg-gradient-to-br from-[#FEE101] to-gray-400 text-white my-4 w-[45vw] md:w-[25vw] flex items-center justify-center">
            <Dialog>

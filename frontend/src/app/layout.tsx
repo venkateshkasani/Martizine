@@ -1,8 +1,12 @@
+
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import Navbar from "@/custom-components/Navbar";
+import {QueryClient, QueryClientProvider} from '@tanstack/react-query'
+import TanstackProvider from "@/utils/TanstackProvider";
+
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -22,6 +26,8 @@ export const metadata: Metadata = {
   }
 };
 
+
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -33,10 +39,12 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-slate-100`}
       >
+        <TanstackProvider>
         <div>
         <Navbar />
+          {children}
         </div>
-        {children}
+        </TanstackProvider>
       </body>
     </html>
     </GoogleOAuthProvider>
