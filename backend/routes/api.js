@@ -2,7 +2,14 @@ const client = require('../index');
 const express = require('express');
 const router = express.Router();
 const getSubjectNames = require('../models/main')
-const subData = require('../dataset/subject')
+const eceModel = require('../models/files')
+const cseModel = require('../models/files')
+const cseAimlModel = require('../models/files')
+const aimlModel = require('../models/files')
+const aidsModel = require('../models/files')
+const csgModel = require('../models/files')
+const itModel = require('../models/files')
+const eeeModel = require('../models/files')
 
 // core functions
 
@@ -36,6 +43,22 @@ router.get('/streams',async (req,res) => {
     const data = await getSubjects();
     console.log(data.map((d)  => d.course));
     res.json(data)
+})
+
+router.post('/ece-files',async (req,res) => {
+    try {
+        const title = req.body.title;
+        const file = req.file.filename;
+        const res = await eceModel.insert({
+            subjectName:'test',
+            uploadedAt:new Date(),
+            regulation:'r20',
+            file:'this is a test'
+        })
+        return res.json({"message":"File uploaded succesfully"});
+    } catch (e) {
+        throw new Error("Error while uploading files to the server")
+    }
 })
 
 
