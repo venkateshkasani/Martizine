@@ -4,6 +4,8 @@ const router = express.Router();
 const getSubjectNames = require('../models/main')
 const subData = require('../dataset/subject')
 
+// core functions
+
 async function getSubjects() {
     try {
         if(!client) console.log("mongo client is not connected")
@@ -16,6 +18,19 @@ async function getSubjects() {
         console.error("Error fetching subject details",e)
     }
 }
+
+async function getSemestersByCourse (courseName) {
+   try {
+     if(!client) console.log("client not connected")
+     else {
+        const query = {courseName:courseName}
+    }
+   } catch (e) {
+    console.log("Error while fetching data")
+   }
+}
+
+// router Apis
 
 router.get('/streams',async (req,res) => {
     const data = await getSubjects();
