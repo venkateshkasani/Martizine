@@ -87,5 +87,6 @@ code, pre {
 }
 .mainDiv {
   width: calc(100vw - 100%);
+  padding: 0px 30px;
 }
 

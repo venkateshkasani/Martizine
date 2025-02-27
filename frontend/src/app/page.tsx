@@ -1,8 +1,10 @@
 import App from '../custom-components/App'
-
+import TanstackProvider from '@/utils/TanstackProvider';
 
 export default function Home () {
   return (
-    <App />
+    <TanstackProvider>
+      <App />
+    </TanstackProvider>
   );
 }

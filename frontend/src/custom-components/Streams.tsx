@@ -1,6 +1,6 @@
 'use client'
 import { useQueryClient,useQuery } from "@tanstack/react-query"
-import { getCourses } from "@/calls/queries/subjects.queries"
+import { getCourses } from "@/controllers/queries/subjects.queries"
 import Stream from "@/utils/Stream"
 import { useState } from "react"
 

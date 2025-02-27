@@ -1,3 +1,4 @@
+'use client'
 import axiosInstance from "@/utils/instance";
 
 // api calling functions
@@ -11,7 +12,7 @@ interface responseType {
 
 export const getCourses = async ()  => {
     try {
-        const response = await axiosInstance.get<responseType[]>('/streams')
+        const response = await axiosInstance.get<responseType[]>('/api/streams')
         return response.data;
     } catch (e) {
         console.error("Error fetching stream resources",e)

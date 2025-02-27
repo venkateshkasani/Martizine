@@ -4,8 +4,9 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import Navbar from "@/custom-components/Navbar";
-import {QueryClient, QueryClientProvider} from '@tanstack/react-query'
 import TanstackProvider from "@/utils/TanstackProvider";
+import AddFileButton from "@/custom-components/AddFileButton";
+import Searchbar from "@/custom-components/Searchbar";
 
 
 const geistSans = Geist({
@@ -42,6 +43,12 @@ export default function RootLayout({
         <TanstackProvider>
         <div>
         <Navbar />
+        <div className="h-full px-8">
+        <div className="flex w-full items-center">
+      <AddFileButton />
+      <Searchbar />
+      </div>
+        </div>
           {children}
         </div>
         </TanstackProvider>

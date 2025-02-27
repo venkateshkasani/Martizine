@@ -1,6 +1,5 @@
 const mongoose =  require('mongoose');
 const express = require('express');
-const apis = require('./routes/api')
 const router = require('./routes/api')
 const cors = require('cors')
 
@@ -20,6 +19,7 @@ app.use(
         credentials: true, // Allow cookies
       })
 )
+app.use("/public", express.static(__dirname + "/public"));
 const port = 8000;
 mongoose.connect('mongodb+srv://venkatesh:Lamborghini@martizine.rzm9w.mongodb.net/subjects_files?retryWrites=true&w=majority&appName=Martizine')
 app.listen(port,() => console.log("Server running on port:",port))

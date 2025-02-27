@@ -1,7 +1,9 @@
 const mongoose = require('mongoose')
 
 const eceSchema = mongoose.Schema({
+    course:String,
     subjectName:String,
+    semester:String,
     chapters:String,
     file:String,
     uploadedAt:String,
@@ -11,7 +13,9 @@ const eceSchema = mongoose.Schema({
 })
 
 const cseSchema = mongoose.Schema({
+    course:String,
     subjectName:String,
+    semester:String,
     chapters:String,
     file:String,
     uploadedAt:String,
@@ -21,7 +25,9 @@ const cseSchema = mongoose.Schema({
 })
 
 const cseAimlSchema = mongoose.Schema({
+    course:String,
     subjectName:String,
+    semester:String,
     chapters:String,
     file:String,
     uploadedAt:String,
@@ -31,7 +37,9 @@ const cseAimlSchema = mongoose.Schema({
 })
 
 const aimlSchema = mongoose.Schema({
+    course:String,
     subjectName:String,
+    semester:String,
     chapters:String,
     file:String,
     uploadedAt:String,
@@ -41,7 +49,9 @@ const aimlSchema = mongoose.Schema({
 })
 
 const aidsSchema = mongoose.Schema({
+    course:String,
     subjectName:String,
+    semester:String,
     chapters:String,
     file:String,
     uploadedAt:String,
@@ -51,7 +61,9 @@ const aidsSchema = mongoose.Schema({
 })
 
 const csgSchema = mongoose.Schema({
+    course:String,
     subjectName:String,
+    semester:String,
     chapters:String,
     file:String,
     uploadedAt:String,
@@ -61,7 +73,9 @@ const csgSchema = mongoose.Schema({
 })
 
 const itSchema = mongoose.Schema({
+    course:String,
     subjectName:String,
+    semester:String,
     chapters:String,
     file:String,
     uploadedAt:String,
@@ -71,7 +85,9 @@ const itSchema = mongoose.Schema({
 })
 
 const eeeSchema = mongoose.Schema({
+    course:String,
     subjectName:String,
+    semester:String,
     chapters:String,
     file:String,
     uploadedAt:String,
@@ -88,3 +104,5 @@ const aimlModel = mongoose.model('aiml-files',cseSchema)
 const csgModel = mongoose.model('csg-files',cseSchema)
 const itModel = mongoose.model('it-files',cseSchema)
 const eeeModel = mongoose.model('eee-files',cseSchema)
+
+module.exports = {eceModel,cseModel,cseAimlModel,aidsModel,aimlModel,csgModel,itModel,eeeModel}

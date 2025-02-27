@@ -5,12 +5,12 @@ import clsx from "clsx";
 
 const Navbar = () => {
   const [isCollapsed, setIsCollapsed] = useState<boolean>(false);
-
+  
   return (
-    <div className="bg-primary w-full">
+    <div className="bg-primary w-full px-5">
       <div className="flex justify-between items-center px-4 py-4 transition-all duration-100 z-10">
         <div className="text-white font-bold text-2xl">
-          <img src="/martizine.png" className="w-[40px] h-[40px]"/>
+          <img src="/martizine.svg" className="w-[150px] h-[50px]"/>
         </div>
         <div
         className={clsx('transition-all duration-500 md:opacity-100',{'opacity-100':isCollapsed,'opacity-0':!isCollapsed})}
@@ -24,7 +24,7 @@ const Navbar = () => {
         </ul>
       </div>
         <div onClick={() => setIsCollapsed(!isCollapsed)}>
-          <Menu size={26} className="text-white" />
+          <Menu size={26} className="text-white md:hidden" />
         </div>
       </div>
     </div>

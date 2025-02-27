@@ -2,14 +2,39 @@ const client = require('../index');
 const express = require('express');
 const router = express.Router();
 const getSubjectNames = require('../models/main')
-const eceModel = require('../models/files')
-const cseModel = require('../models/files')
-const cseAimlModel = require('../models/files')
-const aimlModel = require('../models/files')
-const aidsModel = require('../models/files')
-const csgModel = require('../models/files')
-const itModel = require('../models/files')
-const eeeModel = require('../models/files')
+const {eceModel} = require('../models/files')
+const {cseModel} = require('../models/files')
+const {cseAimlModel} = require('../models/files')
+const {aimlModel} = require('../models/files')
+const {aidsModel} = require('../models/files')
+const {csgModel} = require('../models/files')
+const {itModel} = require('../models/files')
+const {eeeModel} = require('../models/files')
+const multer = require('multer')
+const fs = require('fs')
+const cors = require('cors')
+const path = require('path')
+
+const app = express();
+
+const storage = multer.diskStorage({
+    destination: function(req,res,cb) {
+        const semester = `sem${req.body.semester}`  
+        // console.log("course is",req.body.course,"sem is",semester,"subject is",req.body.subjectName)
+        // const uploadPath = path.join(__dirname, '../public/uploads')
+        let uploadPath = path.join(__dirname, '../public/uploads')
+        if(!fs.existsSync(uploadPath)){
+            fs.mkdir(uploadPath,{recursive:true});
+        }
+        cb(null, uploadPath)
+    },
+    filename: function (req, file, cb) {
+        const safeFilename = file.originalname.replace(/[^a-zA-Z0-9.-]/g, '_'); 
+        cb(null, `${Date.now()}-${safeFilename}`); // Unique file name
+    },
+})
+
+const upload = multer({storage})
 
 // core functions
 
@@ -45,21 +70,158 @@ router.get('/streams',async (req,res) => {
     res.json(data)
 })
 
-router.post('/ece-files',async (req,res) => {
+
+router.post('/ece-pdf', upload.single('file'),async (req,res) => {
+    const { subjectName, chapters, regulation,semester } = req.body;
+    const filename = req.file.filename;
     try {
-        const title = req.body.title;
-        const file = req.file.filename;
-        const res = await eceModel.insert({
-            subjectName:'test',
-            uploadedAt:new Date(),
-            regulation:'r20',
-            file:'this is a test'
+        await eceModel.create({
+            subjectName:`${subjectName}`,
+            semester,
+            chapters:`${chapters}`,
+            file:`${filename}`,
+            uploadedAt:new Date().toUTCString(),
+            regulation,
         })
-        return res.json({"message":"File uploaded succesfully"});
+        res.status(200).json({message:"Successfully uploaded"})
     } catch (e) {
-        throw new Error("Error while uploading files to the server")
+        console.log("Error while uploading file",e)
     }
 })
 
+router.post('/cse-pdf', upload.single('file'),async (req,res) => {
+    const { subjectName, chapters, regulation,semester } = req.body;
+    const filename = req.file.filename;
+    try {
+        await cseModel.create({
+            subjectName:`${subjectName}`,
+            semester,
+            chapters:`${chapters}`,
+            file:`${filename}`,
+            uploadedAt:new Date().toISOString(),
+            regulation,
+        })
+        res.status(200).json({message:"Successfully uploaded"})
+    } catch (e) {
+        console.log("Error while uploading file",e)
+    }
+})
+
+router.post('/it-pdf', upload.single('file'),async (req,res) => {
+    const { subjectName, chapters, regulation,semester } = req.body;
+    const filename = req.file.filename;
+    try {
+        await itModel.create({
+            subjectName:`${subjectName}`,
+            semester,
+            chapters:`${chapters}`,
+            file:`${filename}`,
+            uploadedAt:new Date().toUTCString(),
+            regulation,
+        })
+        res.status(200).json({message:"Successfully uploaded"})
+    } catch (e) {
+        console.log("Error while uploading file",e)
+    }
+})
+router.post('/aiml-pdf', upload.single('file'),async (req,res) => {
+    const { subjectName, chapters, regulation,semester } = req.body;
+    const filename = req.file.filename;
+    try {
+        await aimlModel.create({
+            subjectName:`${subjectName}`,
+            semester,
+            chapters:`${chapters}`,
+            file:`${filename}`,
+            uploadedAt:new Date().toUTCString(),
+            regulation,
+        })
+        res.status(200).json({message:"Successfully uploaded"})
+    } catch (e) {
+        console.log("Error while uploading file",e)
+    }
+})
+router.post('/cseAiml-pdf', upload.single('file'),async (req,res) => {
+    const { subjectName, chapters, regulation,semester } = req.body;
+    const filename = req.file.filename;
+    try {
+        await cseAimlModel.create({
+            subjectName:`${subjectName}`,
+            semester,
+            chapters:`${chapters}`,
+            file:`${filename}`,
+            uploadedAt:new Date().toUTCString(),
+            regulation,
+        })
+        res.status(200).json({message:"Successfully uploaded"})
+    } catch (e) {
+        console.log("Error while uploading file",e)
+    }
+})
+router.post('/aids-pdf', upload.single('file'),async (req,res) => {
+    const { subjectName, chapters, regulation,semester } = req.body;
+    const filename = req.file.filename;
+    try {
+        await aidsModel.create({
+            subjectName:`${subjectName}`,
+            semester,
+            chapters:`${chapters}`,
+            file:`${filename}`,
+            uploadedAt:new Date().toUTCString(),
+            regulation,
+        })
+        res.status(200).json({message:"Successfully uploaded"})
+    } catch (e) {
+        console.log("Error while uploading file",e)
+    }
+})
+router.post('/csg-pdf', upload.single('file'),async (req,res) => {
+    const { subjectName, chapters, regulation,semester } = req.body;
+    const filename = req.file.filename;
+    try {
+        await csgModel.create({
+            subjectName:`${subjectName}`,
+            semester,
+            chapters:`${chapters}`,
+            file:`${filename}`,
+            uploadedAt:new Date().toUTCString(),
+            regulation,
+        })
+        res.status(200).json({message:"Successfully uploaded"})
+    } catch (e) {
+        console.log("Error while uploading file",e)
+    }
+})
+router.post('/eee-pdf', upload.single('file'),async (req,res) => {
+    const { subjectName, chapters, regulation,semester } = req.body;
+    const filename = req.file.filename;
+    try {
+        await eeeModel.create({
+            subjectName:`${subjectName}`,
+            semester,
+            chapters:`${chapters}`,
+            file:`${filename}`,
+            uploadedAt:new Date().toUTCString(),
+            regulation,
+        })
+        res.status(200).json({message:"Successfully uploaded"})
+    } catch (e) {
+        console.log("Error while uploading file",e)
+    }
+})
+
+router.get("/hello",async (req,res) => {
+   return res.status(200).json({message:"HEllo"})
+})
+
+router.get('/getDocs',async (req,res) => {
+   const { subject, branch, semester} = req.query;
+   const dir = path.join(__dirname,'public/uploads',branch,semester)
+   // filter subject objects from db
+   const files = fs.readdirSync(dir);
+   res.status(200).json({files:files});
+})
+
+app.use(cors());
 
 module.exports = router;
