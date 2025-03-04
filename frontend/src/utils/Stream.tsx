@@ -31,13 +31,20 @@ const Stream = ({data,gradient}:{data:courseType,gradient:string}) => {
         semesterNumber:0,
         subjects:[]
        })
-      const [subject, setSubject] = React.useState<string>();
+      const [subject, setSubject] = React.useState<string|number|boolean>();
       const updateSem = useStore((state) => state.updateSem)
       const updateSub = useStore((state) => state.updateSubject)
       const updateBranch = useStore((state:any) => state.updateBranch);
       const sem = useStore((state) => state.sem);
       const sub = useStore((state) => state.subject);
+      let encodedSub = encodeURIComponent(sub);
       const branch = useStore((state) => state.branch);
+
+      React.useEffect(() => {
+        if(subject){
+          encodedSub = encodeURIComponent(subject)
+        }
+      },[subject])
 
     const handleSemester = (val:string) => {
         const value = parseInt(val)
@@ -106,7 +113,7 @@ const Stream = ({data,gradient}:{data:courseType,gradient:string}) => {
           </div>
         </div>
         <DialogFooter>
-          <Link href={`${data.course.toLowerCase()}?sem=${semester.semesterNumber}&subject=${subject?.toLowerCase()}`}>
+          <Link href={`${data.course.toLowerCase()}?sem=${semester.semesterNumber}&subject=${encodedSub?.toLowerCase()}`}>
           <Button type="submit" className="hover:bg-[#4094a7]" onClick={() => {
             console.log("store values",sem, sub, branch)
           }}>Find Resources</Button>

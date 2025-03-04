@@ -2,6 +2,7 @@ import axiosInstance from "@/utils/instance";
 
 export const uploadEceFile = async (data:FormData) => {
      try {
+        console.log("triggerd upload func")
          const res = await axiosInstance.post('/api/ece-pdf',data)
          return res;
      } catch (e) {
