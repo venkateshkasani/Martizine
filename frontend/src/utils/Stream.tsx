@@ -40,6 +40,11 @@ const Stream = ({data,gradient}:{data:courseType,gradient:string}) => {
       let encodedSub = encodeURIComponent(sub);
       const branch = useStore((state) => state.branch);
 
+      const updateStream = (val:string) => {
+        console.log("curr branch is",val);
+        updateBranch(val)
+      }
+
       React.useEffect(() => {
         if(subject){
           encodedSub = encodeURIComponent(subject)
@@ -61,7 +66,7 @@ const Stream = ({data,gradient}:{data:courseType,gradient:string}) => {
     }
 
   return (
-    <Card className={`shadow-lg bg-gradient-to-br ${gradient} text-white my-4 w-[45vw] md:w-[25vw] flex items-center justify-center`} onClick={() => updateBranch(data.course)}>
+    <Card className={`shadow-lg bg-gradient-to-br ${gradient} text-white my-4 w-[100%] sm:w-[45vw] md:w-[25vw] flex items-center justify-center`} onClick={() => updateStream(data.course)}>
            <Dialog>
       <DialogTrigger asChild onClick={() => console.log("clicked me")}>
       <div className="w-full h-full flex justify-center hover:cursor-pointer"><p className="p-8">{data?.course}</p></div>

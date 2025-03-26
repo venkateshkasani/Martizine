@@ -3,6 +3,8 @@ const express = require('express');
 const router = require('./routes/api')
 const cors = require('cors')
 const getRouter  = require('./routes/getApi')
+const authRouter = require('./routes/auth')
+
 
 
 const app = express();
@@ -26,4 +28,5 @@ mongoose.connect('mongodb+srv://venkatesh:Lamborghini@martizine.rzm9w.mongodb.ne
 app.listen(port,() => console.log("Server running on port:",port))
 app.use('/api',router)
 app.use('/api',getRouter)
+app.use('/api',authRouter)
 console.log("connected success!! Enjoy pandago")

@@ -3,7 +3,8 @@
 @tailwind utilities;
 
 :root {
-  --primary: #55b0c4;
+  --primary: #0f766e;
+  overflow-x: hidden;
 }
 
 body {
@@ -11,8 +12,9 @@ body {
 }
 
 .bg-primary {
-  background-color: #55b0c4;
+  background-color: #0f766e;
 }
+
 
 body {
   font-family: var(--font-geist-sans), sans-serif;
@@ -85,8 +87,20 @@ code, pre {
     @apply bg-background text-foreground;
   }
 }
-.mainDiv {
+/* .mainDiv {
   width: calc(100vw - 100%);
-  padding: 0px 30px;
-}
+  padding: 0px 10px;
+} */
 
+.mainHeading {
+  letter-spacing: 5px;
+}
+.aboutSection {
+    background-image: url('/bg.jpg');
+  }
+.sideHeading {
+  letter-spacing: 3px;
+}
+.letterSpace {
+  letter-spacing: 3px;
+}

@@ -7,6 +7,7 @@ import Navbar from "@/custom-components/Navbar";
 import TanstackProvider from "@/utils/TanstackProvider";
 import AddFileButton from "@/custom-components/AddFileButton";
 import Searchbar from "@/custom-components/Searchbar";
+import Footer from "@/custom-components/Footer";
 
 
 const geistSans = Geist({
@@ -43,12 +44,12 @@ export default function RootLayout({
         <TanstackProvider>
         <div>
         <Navbar />
-        <div className="h-full px-8">
-        <div className="flex w-full items-center">
-      <AddFileButton />
-      <Searchbar />
+        {/* <div className="h-full px-4 sm:px-6 md:px-8">
+      <div className="flex gap-2 w-full items-center">
+       <AddFileButton />
+       <Searchbar />
       </div>
-        </div>
+        </div> */}
           {children}
         </div>
         </TanstackProvider>

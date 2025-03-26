@@ -1,6 +1,6 @@
 import type { NextConfig } from "next";
 
-const nextConfig: NextConfig = {
+const nextConfig: NextConfig = {  
   /* config options here */
   webpack:(config) => {
     config.resolve.alias.canvas = false;
@@ -9,7 +9,24 @@ const nextConfig: NextConfig = {
       use: ["@svgr/webpack"],
     })
     return config
-  }
+  },
+  async headers() {
+    return [
+      {
+        source: "/(.*)",
+        headers: [
+          {
+            key: "Cross-Origin-Opener-Policy",
+            value: "same-origin-allow-popups", // Fixes OAuth issue
+          },
+          {
+            key: "Cross-Origin-Embedder-Policy",
+            value: "require-corp",
+          },
+        ],
+      },
+    ];
+  },
 };
 
 export default nextConfig;

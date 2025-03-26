@@ -34,7 +34,7 @@ const Streams = () => {
   return (
     <section className="w-full streams">
         {isLoading ? <p>Loading...</p> : 
-        <div className="grid grid-cols-2 md:grid-cols-3 w-[100vw] px-2">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 w-[100vw] px-8">
         <Stream data={ece[0]} gradient="from-[#FEE101] to-gray-400" />
         <Stream data={cse[0]} gradient="from-blue-700 to-blue-200 " />
         <Stream data={cse_aiml[0]} gradient="from-slate-700 to-purple-500" />

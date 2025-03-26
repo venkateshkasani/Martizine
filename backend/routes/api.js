@@ -20,8 +20,6 @@ const app = express();
 const storage = multer.diskStorage({
     destination: function(req,res,cb) {
         const semester = `sem${req.body.semester}`  
-        // console.log("course is",req.body.course,"sem is",semester,"subject is",req.body.subjectName)
-        // const uploadPath = path.join(__dirname, '../public/uploads')
         let uploadPath = path.join(__dirname, '../public/uploads')
         if(!fs.existsSync(uploadPath)){
             fs.mkdir(uploadPath,{recursive:true});
@@ -72,16 +70,17 @@ router.get('/streams',async (req,res) => {
 
 
 router.post('/ece-pdf', upload.single('file'),async (req,res) => {
-    const { subjectName, chapters, regulation,semester } = req.body;
+    const { subjectName, chapters, tags,semester,author } = req.body;
     const filename = req.file.filename;
     try {
         await eceModel.create({
             subjectName:`${subjectName}`,
             semester,
-            chapters:`${chapters}`,
+            chapters,
             file:`${filename}`,
             uploadedAt:new Date().toUTCString(),
-            regulation,
+            author,
+            tags:JSON.parse(tags),
         })
         res.status(200).json({message:"Successfully uploaded"})
     } catch (e) {
@@ -90,7 +89,8 @@ router.post('/ece-pdf', upload.single('file'),async (req,res) => {
 })
 
 router.post('/cse-pdf', upload.single('file'),async (req,res) => {
-    const { subjectName, chapters, regulation,semester } = req.body;
+    const { subjectName, chapters,semester, author, tags } = req.body;
+    const parsedTags = JSON.parse(tags);
     const filename = req.file.filename;
     try {
         await cseModel.create({
@@ -99,7 +99,8 @@ router.post('/cse-pdf', upload.single('file'),async (req,res) => {
             chapters:`${chapters}`,
             file:`${filename}`,
             uploadedAt:new Date().toISOString(),
-            regulation,
+            author,
+            tags:parsedTags,
         })
         res.status(200).json({message:"Successfully uploaded"})
     } catch (e) {
@@ -108,7 +109,8 @@ router.post('/cse-pdf', upload.single('file'),async (req,res) => {
 })
 
 router.post('/it-pdf', upload.single('file'),async (req,res) => {
-    const { subjectName, chapters, regulation,semester } = req.body;
+    const { subjectName, chapters,semester, author, tags } = req.body;
+    const parsedTags = JSON.parse(tags);
     const filename = req.file.filename;
     try {
         await itModel.create({
@@ -116,8 +118,9 @@ router.post('/it-pdf', upload.single('file'),async (req,res) => {
             semester,
             chapters:`${chapters}`,
             file:`${filename}`,
-            uploadedAt:new Date().toUTCString(),
-            regulation,
+            uploadedAt:new Date().toISOString(),
+            author,
+            tags:parsedTags,
         })
         res.status(200).json({message:"Successfully uploaded"})
     } catch (e) {
@@ -125,7 +128,8 @@ router.post('/it-pdf', upload.single('file'),async (req,res) => {
     }
 })
 router.post('/aiml-pdf', upload.single('file'),async (req,res) => {
-    const { subjectName, chapters, regulation,semester } = req.body;
+    const { subjectName, chapters,semester, author, tags } = req.body;
+    const parsedTags = JSON.parse(tags);
     const filename = req.file.filename;
     try {
         await aimlModel.create({
@@ -133,8 +137,9 @@ router.post('/aiml-pdf', upload.single('file'),async (req,res) => {
             semester,
             chapters:`${chapters}`,
             file:`${filename}`,
-            uploadedAt:new Date().toUTCString(),
-            regulation,
+            uploadedAt:new Date().toISOString(),
+            author,
+            tags:parsedTags,
         })
         res.status(200).json({message:"Successfully uploaded"})
     } catch (e) {
@@ -142,7 +147,8 @@ router.post('/aiml-pdf', upload.single('file'),async (req,res) => {
     }
 })
 router.post('/cseAiml-pdf', upload.single('file'),async (req,res) => {
-    const { subjectName, chapters, regulation,semester } = req.body;
+    const { subjectName, chapters,semester, author, tags } = req.body;
+    const parsedTags = JSON.parse(tags);
     const filename = req.file.filename;
     try {
         await cseAimlModel.create({
@@ -150,8 +156,9 @@ router.post('/cseAiml-pdf', upload.single('file'),async (req,res) => {
             semester,
             chapters:`${chapters}`,
             file:`${filename}`,
-            uploadedAt:new Date().toUTCString(),
-            regulation,
+            uploadedAt:new Date().toISOString(),
+            author,
+            tags:parsedTags,
         })
         res.status(200).json({message:"Successfully uploaded"})
     } catch (e) {
@@ -159,7 +166,8 @@ router.post('/cseAiml-pdf', upload.single('file'),async (req,res) => {
     }
 })
 router.post('/aids-pdf', upload.single('file'),async (req,res) => {
-    const { subjectName, chapters, regulation,semester } = req.body;
+    const { subjectName, chapters,semester, author, tags } = req.body;
+    const parsedTags = JSON.parse(tags);
     const filename = req.file.filename;
     try {
         await aidsModel.create({
@@ -167,8 +175,9 @@ router.post('/aids-pdf', upload.single('file'),async (req,res) => {
             semester,
             chapters:`${chapters}`,
             file:`${filename}`,
-            uploadedAt:new Date().toUTCString(),
-            regulation,
+            uploadedAt:new Date().toISOString(),
+            author,
+            tags:parsedTags,
         })
         res.status(200).json({message:"Successfully uploaded"})
     } catch (e) {
@@ -176,7 +185,8 @@ router.post('/aids-pdf', upload.single('file'),async (req,res) => {
     }
 })
 router.post('/csg-pdf', upload.single('file'),async (req,res) => {
-    const { subjectName, chapters, regulation,semester } = req.body;
+    const { subjectName, chapters,semester, author, tags } = req.body;
+    const parsedTags = JSON.parse(tags);
     const filename = req.file.filename;
     try {
         await csgModel.create({
@@ -184,8 +194,9 @@ router.post('/csg-pdf', upload.single('file'),async (req,res) => {
             semester,
             chapters:`${chapters}`,
             file:`${filename}`,
-            uploadedAt:new Date().toUTCString(),
-            regulation,
+            uploadedAt:new Date().toISOString(),
+            author,
+            tags:parsedTags,
         })
         res.status(200).json({message:"Successfully uploaded"})
     } catch (e) {
@@ -193,7 +204,8 @@ router.post('/csg-pdf', upload.single('file'),async (req,res) => {
     }
 })
 router.post('/eee-pdf', upload.single('file'),async (req,res) => {
-    const { subjectName, chapters, regulation,semester } = req.body;
+    const { subjectName, chapters,semester, author, tags } = req.body;
+    const parsedTags = JSON.parse(tags);
     const filename = req.file.filename;
     try {
         await eeeModel.create({
@@ -201,8 +213,9 @@ router.post('/eee-pdf', upload.single('file'),async (req,res) => {
             semester,
             chapters:`${chapters}`,
             file:`${filename}`,
-            uploadedAt:new Date().toUTCString(),
-            regulation,
+            uploadedAt:new Date().toISOString(),
+            author,
+            tags:parsedTags,
         })
         res.status(200).json({message:"Successfully uploaded"})
     } catch (e) {

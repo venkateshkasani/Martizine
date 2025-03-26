@@ -8,14 +8,31 @@ import {
     SheetTitle,
     SheetTrigger,
   } from "@/components/ui/sheet"
-import { useForm } from 'react-hook-form'
+import React, { useEffect } from "react"
+import { Controller, useForm } from 'react-hook-form'
 import { useMutation } from "@tanstack/react-query"
 import {uploadAidsFile, uploadAimlFile, uploadCseAimlFile, uploadCseFile, uploadCsgFile, uploadEceFile, uploadEeeFile, uploadItFile} from "@/controllers/mutations/file-uploads"
+import { usePathname } from "next/navigation"
+import { Plus } from "lucide-react"
 import useStore from "@/state-management/Store"
+import MultiInput from "./MultiInput"
+import Link from "next/link"
 
 const AddFileButton = () => {
-  const currentBranch = useStore((state) => state.branch);
+  const {control} = useForm();
+  const currentBranch = useStore((state) => state.branch)
   const {register, handleSubmit, watch, formState:{errors}} = useForm();
+  const [windowWidth, setWindowWidth] = React.useState('')
+  const [tags,setTags] = React.useState<string[]>([]);
+  useEffect(() => {
+    const handleResize = () => {
+       setWindowWidth(window.innerWidth <= 450 ? 'small' : 'large')
+    }
+    handleResize();
+    window.addEventListener('resize',handleResize);
+    return () => window.removeEventListener('resize',handleResize);
+  },[])
+
   const mutation = useMutation({
     mutationKey:['pdfFile'],
     mutationFn: (data: FormData) => {
@@ -23,7 +40,7 @@ const AddFileButton = () => {
         case 'ece': return uploadEceFile(data);
         case 'cse': return uploadCseFile(data);
         case 'aiml': return uploadAimlFile(data);
-        case 'cseAiml': return uploadCseAimlFile(data);
+        case 'cse_aiml': return uploadCseAimlFile(data);
         case 'aids': return uploadAidsFile(data);
         case 'it': return uploadItFile(data);
         case 'csg': return uploadCsgFile(data);
@@ -44,6 +61,8 @@ const AddFileButton = () => {
       semester:'',
       chapters:'',
       regulation:'',
+      author:'',
+      tags:'',
       file:data.file[0] ?? null
     }
     dataClone.course = currentBranch;
@@ -51,7 +70,9 @@ const AddFileButton = () => {
     dataClone.semester = data.semester;
     dataClone.chapters = data.chapters;
     dataClone.regulation = data.regulation;
+    dataClone.tags = data.tags;
     dataClone.file = data.file[0];
+    dataClone.author = data.author;
     const formData = new FormData();
     formData.append('file',dataClone.file)
     Object.entries(dataClone).forEach(([key,value]) => {
@@ -62,11 +83,13 @@ const AddFileButton = () => {
     console.log("Data displayed",dataClone);
     mutation.mutate(formData);
   }
+
   return (
-    <Sheet>
+  <div>
+      {/* <Sheet>
   <SheetTrigger>
-    <span style={{whiteSpace:'nowrap'}} className="h-fit p-3 text-white text-sm bg-teal-600 w-fit rounded flex items-center hover:cursor-pointer">
-       Add Notes +
+    <span style={{whiteSpace:'nowrap'}} className="h-fit p-2 px-3 sm:px-2 sm:p-3 text-white text-xs sm:text-sm bg-teal-700 w-fit rounded flex items-center hover:cursor-pointer">
+      {windowWidth == 'small' ? <Plus color="white" /> : 'Add Files + '}
     </span>
   </SheetTrigger>
   <SheetContent>
@@ -80,7 +103,8 @@ const AddFileButton = () => {
         <input placeholder="Semster" className="border border-teal-600 focus:outline-none rounded p-2" {...register('semester')} />
         <input placeholder="Chapter numbers" className="border border-teal-600 focus:outline-none rounded p-2" {...register('chapters')} />
         <input placeholder="Regulation" className="border border-teal-600 focus:outline-none rounded p-2" {...register('regulation')} />
-        <input placeholder="Related tags" className="border border-teal-600 focus:outline-none rounded p-2" {...register('topics')} />
+        <input placeholder="Related tags" className="border border-teal-600 focus:outline-none rounded p-2" {...register('tags')} />
+        <input placeholder="Author name" className="border border-teal-600 focus:outline-none rounded p-2" {...register('author')} />
         <input placeholder="PDF File" className="border border-teal-600 focus:outline-none rounded p-2" type="file" accept="pdf" {...register('file')} />
         <SheetClose>
         <button type='submit' className="bg-primary rounded text-white p-2 ">Submit</button>
@@ -88,7 +112,15 @@ const AddFileButton = () => {
       </form>
     </SheetHeader>
   </SheetContent>
-</Sheet>
+</Sheet> */}
+
+<Link href={'/upload'}>
+<span style={{whiteSpace:'nowrap'}} className="h-fit p-2 px-3 sm:px-2 sm:p-3 text-white text-xs sm:text-sm bg-teal-700 w-fit rounded flex items-center hover:cursor-pointer">
+      {windowWidth == 'small' ? <Plus color="white" /> : 'Add Files + '}
+    </span>
+</Link>
+  </div>
+
 
   )
 }
