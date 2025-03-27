@@ -1,6 +1,7 @@
 import axiosInstance from "@/utils/instance";
 
-export const aidsFiles = async (query:string|null) => {
+export const aidsFiles = async (query:string | null) => {
+   
    try {
       console.log("triggered aidsFiles call")
       const res = await axiosInstance.get('/api/get-aids',{

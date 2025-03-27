@@ -70,12 +70,13 @@ router.get('/streams',async (req,res) => {
 
 
 router.post('/ece-pdf', upload.single('file'),async (req,res) => {
-    const { subjectName, chapters, tags,semester,author } = req.body;
+    const { subjectName, chapters, tags,semester,author, type } = req.body;
     const filename = req.file.filename;
     try {
         await eceModel.create({
             subjectName:`${subjectName}`,
             semester,
+            type,
             chapters,
             file:`${filename}`,
             uploadedAt:new Date().toUTCString(),
@@ -89,12 +90,13 @@ router.post('/ece-pdf', upload.single('file'),async (req,res) => {
 })
 
 router.post('/cse-pdf', upload.single('file'),async (req,res) => {
-    const { subjectName, chapters,semester, author, tags } = req.body;
+    const { subjectName, chapters,semester, author, tags, type } = req.body;
     const parsedTags = JSON.parse(tags);
     const filename = req.file.filename;
     try {
         await cseModel.create({
             subjectName:`${subjectName}`,
+            type,
             semester,
             chapters:`${chapters}`,
             file:`${filename}`,
@@ -104,18 +106,20 @@ router.post('/cse-pdf', upload.single('file'),async (req,res) => {
         })
         res.status(200).json({message:"Successfully uploaded"})
     } catch (e) {
+        res.status(500).json({"message":e})
         console.log("Error while uploading file",e)
     }
 })
 
 router.post('/it-pdf', upload.single('file'),async (req,res) => {
-    const { subjectName, chapters,semester, author, tags } = req.body;
+    const { subjectName, chapters,semester, author, tags, type } = req.body;
     const parsedTags = JSON.parse(tags);
     const filename = req.file.filename;
     try {
         await itModel.create({
             subjectName:`${subjectName}`,
             semester,
+            type,
             chapters:`${chapters}`,
             file:`${filename}`,
             uploadedAt:new Date().toISOString(),
@@ -128,12 +132,13 @@ router.post('/it-pdf', upload.single('file'),async (req,res) => {
     }
 })
 router.post('/aiml-pdf', upload.single('file'),async (req,res) => {
-    const { subjectName, chapters,semester, author, tags } = req.body;
+    const { subjectName, chapters,semester, author, tags, type } = req.body;
     const parsedTags = JSON.parse(tags);
     const filename = req.file.filename;
     try {
         await aimlModel.create({
             subjectName:`${subjectName}`,
+            type,
             semester,
             chapters:`${chapters}`,
             file:`${filename}`,
@@ -147,13 +152,14 @@ router.post('/aiml-pdf', upload.single('file'),async (req,res) => {
     }
 })
 router.post('/cseAiml-pdf', upload.single('file'),async (req,res) => {
-    const { subjectName, chapters,semester, author, tags } = req.body;
+    const { subjectName, chapters,semester, author, tags, type } = req.body;
     const parsedTags = JSON.parse(tags);
     const filename = req.file.filename;
     try {
         await cseAimlModel.create({
             subjectName:`${subjectName}`,
             semester,
+            type,
             chapters:`${chapters}`,
             file:`${filename}`,
             uploadedAt:new Date().toISOString(),
@@ -166,12 +172,13 @@ router.post('/cseAiml-pdf', upload.single('file'),async (req,res) => {
     }
 })
 router.post('/aids-pdf', upload.single('file'),async (req,res) => {
-    const { subjectName, chapters,semester, author, tags } = req.body;
+    const { subjectName, chapters,semester, author, tags, type } = req.body;
     const parsedTags = JSON.parse(tags);
     const filename = req.file.filename;
     try {
         await aidsModel.create({
             subjectName:`${subjectName}`,
+            type,
             semester,
             chapters:`${chapters}`,
             file:`${filename}`,
@@ -185,13 +192,14 @@ router.post('/aids-pdf', upload.single('file'),async (req,res) => {
     }
 })
 router.post('/csg-pdf', upload.single('file'),async (req,res) => {
-    const { subjectName, chapters,semester, author, tags } = req.body;
+    const { subjectName, chapters,semester, author, tags, type } = req.body;
     const parsedTags = JSON.parse(tags);
     const filename = req.file.filename;
     try {
         await csgModel.create({
             subjectName:`${subjectName}`,
             semester,
+            type,
             chapters:`${chapters}`,
             file:`${filename}`,
             uploadedAt:new Date().toISOString(),
@@ -203,13 +211,14 @@ router.post('/csg-pdf', upload.single('file'),async (req,res) => {
         console.log("Error while uploading file",e)
     }
 })
-router.post('/eee-pdf', upload.single('file'),async (req,res) => {
-    const { subjectName, chapters,semester, author, tags } = req.body;
+router.post('/eee-pdf', upload.single('file'), async (req,res) => {
+    const { subjectName, chapters, semester, author, tags, type } = req.body;
     const parsedTags = JSON.parse(tags);
     const filename = req.file.filename;
     try {
         await eeeModel.create({
             subjectName:`${subjectName}`,
+            type,
             semester,
             chapters:`${chapters}`,
             file:`${filename}`,

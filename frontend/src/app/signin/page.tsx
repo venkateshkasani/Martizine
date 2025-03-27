@@ -3,18 +3,26 @@ import MainHeader from "@/helper-components/MainHeader"
 import { GoogleLogin } from "@react-oauth/google"
 import Cookies from "js-cookie"
 import { useRouter } from "next/navigation"
-import {jwtDecode} from 'jwt-decode'
+import {jwtDecode, JwtPayload} from 'jwt-decode'
 import { useState } from "react"
 import { useMutation } from "@tanstack/react-query"
 import { userDataType } from "@/types/login"
-import { decode } from "punycode"
+import auth from "@/controllers/mutations/auth"
+
 const page = () => {
+  interface CustomJwtPayload extends JwtPayload {
+    name?: string;
+    email?: string;
+    picture?: string;
+  }
   const router = useRouter();
   const userData = useState("");
-  // const mutation = useMutation({
-  //   mutationKey: ["auth"],
-  //   mutationFn: (userData: userDataType) => auth(userData),
-  // });
+  const mutation = useMutation({
+    mutationKey: ["auth"],
+    mutationFn: (userData: userDataType) => auth(userData),
+    onSuccess:() => console.log("mutation success"),
+    onError:() => console.error("Mutatin failed")
+  });
   const handleLogin = (creds: any) => {
     Cookies.set("artk", creds.credential, {
       expires: 7,
@@ -23,10 +31,10 @@ const page = () => {
       secure: true,
     });
     if (creds) {
-      const decoded = jwtDecode(creds.credential);
-      console.log("creds",decoded)
-      // const { name, email, picture } = JSON.stringify(decoded);
-      // mutation.mutate({ name:name, email:email, picture:picture, role: "admin", savedFiles: [] });
+      const decoded = jwtDecode<CustomJwtPayload>(creds.credential);
+      console.log("creds", decoded)
+      const { name, email, picture } = decoded
+      mutation.mutate({ name:name??"", email:email??"", picture:picture??"", role: "admin", savedFiles: [] });
       router.push("/");
       sessionStorage.setItem("userData", JSON.stringify(decoded));
     }

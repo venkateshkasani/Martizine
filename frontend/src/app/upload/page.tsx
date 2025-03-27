@@ -62,16 +62,17 @@ const page = () => {
   });
   const onSubmit = (data) => {
     let formData = new FormData();
-    // formData.append('branch',data.branch)
+    formData.append('type',data.type)
     formData.append('semester',data.semester)
     formData.append('subjectName',data.subject);
     formData.append('tags',JSON.stringify(tags??[]));
     formData.append('chapters',JSON.stringify(chapters??[]));
     formData.append('author',data.author)
-    if(data.file && data.file) {
+    if(data.file) {
       formData.append('file',data.file)
     }
     console.log("triggered submit",formData)
+    formData.forEach((value, key) => console.log(value,key))
     mutation.mutate(formData);
   }
   const handleChapters = (data:CheckBoxChunkCallback) => {
@@ -131,6 +132,29 @@ const page = () => {
         </Select>
         )}
       />
+       <Controller
+       name='type'
+       control={control}
+       render={({field}) => (
+          
+        <Select
+        {...field}
+        onValueChange={(value) => {
+          field.onChange(value);
+        }}
+        value={field.value}
+      >
+        <SelectTrigger className="w-full outline outline-1 outline-gray-200 border border-none">
+          <SelectValue placeholder="PDF Type" />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem value="question_paper">Question Paper</SelectItem>
+          <SelectItem value="assignment">Assigment</SelectItem>
+          <SelectItem value="class_notes">Class Notes</SelectItem>
+        </SelectContent>
+      </Select>
+       )}
+        />
        <Controller
        name='semester'
        control={control}
@@ -221,3 +245,4 @@ const page = () => {
 };
 
 export default page;
+

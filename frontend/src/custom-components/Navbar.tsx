@@ -10,7 +10,11 @@ import { ChevronDown } from "lucide-react";
 
 const Navbar = () => {
   const [isCollapsed, setIsCollapsed] = useState<boolean>(false);
-  const [userData, setuserData] = useState<any>({});
+  const [userData, setuserData] = useState<any>(() => {
+    if(typeof window != "undefined") {
+      return JSON.parse(sessionStorage.getItem('userData') || '{}')
+    } else return null;
+  });
   const [display,setDisplay] = useState(false)
   const pathname = usePathname();
   const profileRef = useRef<HTMLDivElement>(null);
@@ -28,14 +32,16 @@ const Navbar = () => {
     };
   }, []);
 
-  // useEffect(() => {
-  //   const parsedData = JSON.parse(sessionStorage?.getItem('userData') || '{}')
-  //  if(parsedData) {
-  //   setuserData(parsedData);
-  //  }
-  // },[])
+  useEffect(() => {
+    if(typeof window != 'undefined') {
+      const parsedData = JSON.parse(sessionStorage.getItem('userData') || '{}')
+      if(parsedData) {
+       setuserData(parsedData);
+      }
+    }
+  },[])
 
-  console.log("session storage",userData)
+  // console.log("session storage",userData)
   return (
     <div className="bg-teal-700 w-full px-5">
       <div className="flex justify-between items-center py-4 transition-all duration-100 z-10">
@@ -46,7 +52,7 @@ const Navbar = () => {
         className={clsx('transition-all duration-500 md:opacity-100',{'opacity-100':isCollapsed,'opacity-0':!isCollapsed})}
       >
         <div style={{letterSpacing:'3px'}} className="text-white flex flex-col gap-2 absolute md:relative md:flex-row md:gap-8 left-0 top-[4em] md:top-0 w-full px-2 py-4">
-        <div className="flex gap-10">
+        <div className="flex gap-10"> 
           <Link href={'/'}>
           <div className={clsx('hover:cursor-pointer',pathname=='/' && 'font-bold text-whitesmoke')}>Home</div>
           </Link> 
@@ -65,16 +71,19 @@ const Navbar = () => {
           </div>
           </Link>
           </div>
+          <div>
+            {/* <img src={'/'}  width={'300px'} height={'300px'} /> */}
+          </div>
           <div ref={profileRef}  className="relative" onClick={() => setDisplay(!display)}>
           <div className="flex items-center gap-1 hover:cursor-pointer" >
           <Avatar>
-           <AvatarImage  src={userData?.picture ?? 'https://cdn.pixabay.com/photo/2023/02/18/11/00/icon-7797704_640.png'} className="rounded-full h-[25px] w-[25px] hover:cursor-pointer" />
-           <AvatarFallback>CN</AvatarFallback>
+           <AvatarImage src={userData?.picture} className="w-1/4 h-1/4" />
+           {/* <AvatarFallback>{userData?.picture}</AvatarFallback> */}
+           <AvatarFallback>{userData?.name?.slice(0,1)}</AvatarFallback>
           </Avatar>
           <ChevronDown size={15} className={clsx('transition-transform duration-300',display ? 'rotate-180' : 'rotate-0')} />
           </div>
           <div className={clsx("flex flex-col gap-2 bg-gray-200 hover:bg-slate-200 py-3 px-5 rounded-sm mt-1 absolute",display ? 'block' : 'hidden')}>
-            {/* <span className="bg-gray-50 text-center hover:bg-gray-200 rounded p-1 text-black text-xs hover:cursor-pointer">Login</span> */}
             <span className="text-center rounded p-1 text-black text-xs hover:cursor-pointer">Logout</span>
           </div>
           </div>

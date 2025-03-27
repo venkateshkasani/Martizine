@@ -1,7 +1,8 @@
 const mongoose = require('mongoose')
 
 const eceSchema = mongoose.Schema({
-    course:String,
+    // course:String,
+    type:String,
     subjectName:String,
     semester:String,
     chapters:String,
@@ -14,13 +15,13 @@ const eceSchema = mongoose.Schema({
 })
 
 const cseSchema = mongoose.Schema({
-    course:String,
+    // course:String,
+    type:String,
     subjectName:String,
     semester:String,
     chapters:String,
     file:String,
     uploadedAt:String,
-    regulation:String,
     tags:[String],
     author:String
 },{
@@ -29,12 +30,12 @@ const cseSchema = mongoose.Schema({
 
 const cseAimlSchema = mongoose.Schema({
     course:String,
+    type:String,
     subjectName:String,
     semester:String,
     chapters:String,
     file:String,
     uploadedAt:String,
-    regulation:String,
     tags:[String],
     author:String
 },{
@@ -43,12 +44,12 @@ const cseAimlSchema = mongoose.Schema({
 
 const aimlSchema = mongoose.Schema({
     course:String,
+    type:String,
     subjectName:String,
     semester:String,
     chapters:String,
     file:String,
     uploadedAt:String,
-    regulation:String,
     tags:[String],
     author:String
 },{
@@ -57,12 +58,12 @@ const aimlSchema = mongoose.Schema({
 
 const aidsSchema = mongoose.Schema({
     course:String,
+    type:String,
     subjectName:String,
     semester:String,
     chapters:String,
     uploadedAt:String,
     file:String,
-    regulation:String,
     tags:[String],
     author:String
 },{
@@ -71,12 +72,12 @@ const aidsSchema = mongoose.Schema({
 
 const csgSchema = mongoose.Schema({
     course:String,
+    type:String,
     subjectName:String,
     semester:String,
     chapters:String,
     file:String,
     uploadedAt:String,
-    regulation:String,
     tags:[String],
     author:String
 },{
@@ -85,12 +86,12 @@ const csgSchema = mongoose.Schema({
 
 const itSchema = mongoose.Schema({
     course:String,
+    type:String,
     subjectName:String,
     semester:String,
     chapters:String,
     file:String,
     uploadedAt:String,
-    regulation:String,
     tags:[String],
     author:String,
 },{
@@ -99,12 +100,12 @@ const itSchema = mongoose.Schema({
 
 const eeeSchema = mongoose.Schema({
     course:String,
+    type:String,
     subjectName:String,
     semester:String,
     chapters:String,
     file:String,
     uploadedAt:String,
-    regulation:String,
     tags:[String],
     author:String
 },{
