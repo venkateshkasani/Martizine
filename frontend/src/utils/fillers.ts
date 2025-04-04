@@ -1,0 +1,2 @@
+export const aboutContent = "This is a small individual effort to simplify and ease the preparation process for students gearing up for semester or mid-semester examinations. We have compiled a collection of previous years' question papers (JNTU & Autonomous SMEC) for almost all branches."
+export const aboutContent2 = "This application also includes handwritten notes and faculty-backed study materials for various subjects. If you have well-maintained handwritten notes or valuable study resources, you can contribute by uploading them as well."
