@@ -28,11 +28,10 @@ const page = () => {
           <Accordion type="single" collapsible className="w-full m-5">
             <AccordionItem value="item-1">
               <AccordionTrigger className="text-lg">
-                How can i upload my notes ?
+                What are the sources of these resources ?
               </AccordionTrigger>
               <AccordionContent className="text-md">
-                Navigate to the UPLOAD page via the navigation menu and submit
-                the form along with your file.
+                These are references of faculty approved documentations and high quality handwritten notes of merit students.
               </AccordionContent>
             </AccordionItem>
             <AccordionItem value="item-2">
@@ -40,7 +39,7 @@ const page = () => {
                 What kinds of study material does this app provide ?
               </AccordionTrigger>
               <AccordionContent className="text-md">
-                You can access previous year  question papers and handwritten notes for subjects.
+                You can access previous year question papers, handwritten notes, Assignments, and documentations of subjects.
               </AccordionContent>
             </AccordionItem>
             <AccordionItem value="item-3">

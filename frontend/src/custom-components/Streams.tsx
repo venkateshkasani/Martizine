@@ -3,6 +3,8 @@ import { useQueryClient,useQuery } from "@tanstack/react-query"
 import { getCourses } from "@/controllers/queries/subjects.queries"
 import Stream from "@/utils/Stream"
 import { useState } from "react"
+import { Loader2 } from "lucide-react"
+import clsx from "clsx"
 
 
 const Streams = () => {
@@ -33,7 +35,7 @@ const Streams = () => {
   const eee = streamsData?.filter((stream) => stream.course == 'EEE') || []
   return (
     <section className="w-full streams">
-        {isLoading ? <p>Loading...</p> : 
+        {isLoading ? <div className="w-full flex justify-center items-center text-center"><Loader2 className={clsx(isLoading ? 'animate-spin' : 'hidden')} /></div> : 
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 w-[100vw] px-8">
         <Stream data={ece[0]} gradient="from-[#FEE101] to-gray-400" />
         <Stream data={cse[0]} gradient="from-blue-700 to-blue-200 " />

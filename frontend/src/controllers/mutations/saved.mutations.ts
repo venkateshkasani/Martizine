@@ -1,6 +1,6 @@
 import axiosInstance from "@/utils/instance"
 
-export const saveFiles = async (data:{email:string,_id:string}) => {
+export const saveFiles = async (data:{email:string,obj:any}) => {
     try {
         const res = await axiosInstance.post('/api/save-files',data);
         return res.data;
@@ -9,7 +9,7 @@ export const saveFiles = async (data:{email:string,_id:string}) => {
     }
 }
 
-export const unsaveFiles = async (data:{email:string,_id:string}) => {
+export const unsaveFiles = async (data:{email:string,obj:any}) => {
     try {
         const res = await axiosInstance.post('/api/unsave-files',data);
         return res.data;
@@ -17,4 +17,3 @@ export const unsaveFiles = async (data:{email:string,_id:string}) => {
         console.error("Server Error: Failed while mutating data",e);
     }
 }
-

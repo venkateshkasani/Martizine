@@ -52,6 +52,9 @@ export default {
   				'5': 'hsl(var(--chart-5))'
   			}
   		},
+		padding:{
+			'20':'5rem'
+		},
   		borderRadius: {
   			lg: 'var(--radius)',
   			md: 'calc(var(--radius) - 2px)',
@@ -73,11 +76,43 @@ export default {
   				to: {
   					height: '0'
   				}
-  			}
+  			},
+			  aurora: {
+				'0%': { backgroundPosition: '0% center' },
+				'100%': { backgroundPosition: '200% center' },
+			  },
+			  grid:{
+				'0%':{backgroundPosition:"0 0"},
+				'100%': { backgroundPosition: '0px 200px' },
+			  },
+			  borderGlow: {
+				'0%': {
+				  'box-shadow': '0 0 0px 0px var(--shimmer-color)',
+				},
+				'50%': {
+				  'box-shadow': '0 0 8px 4px var(--shimmer-color)',
+				},
+				'100%': {
+				  'box-shadow': '0 0 0px 0px var(--shimmer-color)',
+				},
+			  },
+			  borderMove: {
+				'0%': { backgroundPosition: '0% 50%' },
+				'100%': { backgroundPosition: '200% 50%' },
+			  },
+			  shimmerSlide:{
+				'0%': { transform: 'translateX(-100%)' },
+				'100%': { transform: 'translateX(100%)' },
+			  }
   		},
   		animation: {
   			'accordion-down': 'accordion-down 0.2s ease-out',
-  			'accordion-up': 'accordion-up 0.2s ease-out'
+  			'accordion-up': 'accordion-up 0.2s ease-out',
+			aurora: 'aurora 10s linear infinite',
+			grid:'grid 10s linear infinite',
+			borderGlow: 'borderGlow 2s infinite ease-in-out',
+        borderMove: 'borderMove 3s linear infinite',
+		'shimmer-slide':'shimmerSlide var(--speed, 3s) linear infinite'
   		}
   	}
   },

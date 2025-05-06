@@ -5,7 +5,7 @@ const authSchema = mongoose.Schema({
     email:String,
     picture:String,
     role:String,
-    savedFiles:[String]
+    savedFiles:[mongoose.Schema.Types.Mixed]
 },{
     collection:"auth"
 })

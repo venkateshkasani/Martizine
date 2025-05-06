@@ -11,4 +11,4 @@ export const csgFiles = async (query:{subject:string|undefined,type:string|undef
    } catch (e) {
     console.log("Error while fetching resources",e)
    }
-}
+}  

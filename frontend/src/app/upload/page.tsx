@@ -1,4 +1,7 @@
 "use client";
+import React from "react";
+import {z} from 'zod'
+import {zodResolver} from '@hookform/resolvers/zod';
 import { Input } from "@/components/ui/input";
 import {
   Select,
@@ -10,13 +13,16 @@ import {
 import { Button } from "@/components/ui/button";
 import { getCourses } from "@/controllers/queries/subjects.queries";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import React from "react";
 import { subjectsType } from "@/types/Course.type";
 import CheckboxChunk from "@/custom-components/CheckboxChunk";
 import MultiInput from "@/custom-components/MultiInput";
 import {useForm, Controller} from 'react-hook-form'
 import { CheckBoxChunkCallback } from "@/types/ComponentProps";
 import {uploadAidsFile, uploadAimlFile, uploadCseAimlFile, uploadCseFile, uploadCsgFile, uploadEceFile, uploadEeeFile, uploadItFile} from "@/controllers/mutations/file-uploads"
+import { uploadSchema } from "@/utils/ZodValidations";
+import { Loader2 } from "lucide-react";
+import clsx from "clsx";
+import { useToast } from "@/hooks/use-toast";
 
 
 const page = () => {
@@ -24,12 +30,28 @@ const page = () => {
     queryKey: ["getAllCourses"],
     queryFn: async () => getCourses(),
   });
-  const {register, handleSubmit, control, formState:{errors}, watch} = useForm();
+  const { handleSubmit, control, formState: { errors }, watch, reset } = useForm({
+    resolver: zodResolver(uploadSchema),
+    defaultValues:{
+      branch:'',
+      type:'',
+      semester:'',
+      subject:'',
+      chapters:[''],
+      tags:[''],
+      authorName:'',
+      file:undefined
+    }
+  });
+  
+  
   const streamsData = streams.data;
   const [branchData, setBranchData] = React.useState<any>();
   const [semSubjects, setSemSubjects] = React.useState<any>();
   const [tags, setTags] = React.useState<string[]>(['']);
   const [chapters, setChapters] = React.useState<any>({});
+  const {toast} = useToast();
+  const authorname = watch('authorName');
   React.useEffect(() => {
     console.log("data updated, branch data:", branchData);
   }, [branchData]);
@@ -57,29 +79,53 @@ const page = () => {
           return Promise.reject(new Error("Invalid branch selected"));
       }
     },
-    onSuccess: () => console.log("Upload success!"),
-    onError: (error) => console.error("Error while uploading files:", error),
+    onSuccess: () => {
+      console.log("Upload success!");
+      reset();
+      window.location.reload();
+      toast({
+        title:"Details submitted successfully!",
+        description:'The file will be live soon :)',
+      });
+    },
+    onError: (error) => {
+      console.error("Error while uploading files:", error)
+      toast({
+        title:"Details submitted successfully!",
+        description:'The file will be live soon :)',
+      })
+    },
   });
 
-  const onSubmit = (data) => {
+  const onSubmit = (data:any) => {
     let formData = new FormData();
     formData.append('type',data.type)
     formData.append('semester',data.semester)
     formData.append('subjectName',data.subject);
-    formData.append('tags',JSON.stringify(tags??[]));
     formData.append('chapters',JSON.stringify(chapters??[]));
-    formData.append('author',data.author)
+    formData.append('tags',JSON.stringify(tags??[]));
+    formData.append('author',data.authorName)
     if(data.file) {
       formData.append('file',data.file)
     }
-    console.log("triggered submit",formData)
-    formData.forEach((value, key) => console.log(value,key))
+    console.log("triggered submit")
+    for (const [key, value] of formData.entries()) {
+      console.log(`${key}:`, value);
+    }
     mutation.mutate(formData);
+    reset();
   }
 
   const handleChapters = (data:CheckBoxChunkCallback) => {
     setChapters(data);
   }
+
+  React.useEffect(() => {
+   console.log("tags effect",tags)
+  },[tags])
+  React.useEffect(() => {
+   console.log("authorname changed",authorname)
+  },[authorname])
   
   return (
     <section className="h-fit bg-gray-100">
@@ -135,11 +181,11 @@ const page = () => {
         </Select>
         )}
       />
+      <p className="text-red-500 text-sm">{errors.branch?.message}</p>
        <Controller
        name='type'
        control={control}
        render={({field}) => (
-          
         <Select
         {...field}
         onValueChange={(value) => {
@@ -158,11 +204,11 @@ const page = () => {
       </Select>
        )}
         />
+        <p className="text-red-500 text-sm">{errors.type?.message}</p>
        <Controller
        name='semester'
        control={control}
        render={({field}) => (
-          
         <Select
         {...field}
         onValueChange={(value) => {
@@ -191,6 +237,7 @@ const page = () => {
       </Select>
        )}
         />
+          <p className="text-red-500 text-sm">{errors.semester?.message}</p>
           <Controller
           name="subject"
           control={control}
@@ -211,6 +258,7 @@ const page = () => {
             </Select>
           )}
            />
+          <p className="text-red-500 text-sm">{errors.subject?.message}</p>
            <Controller
            name="chapters"
            control={control}
@@ -226,20 +274,22 @@ const page = () => {
             )}
              />
               <Controller
-            name="author"
+            name="authorName" 
             control={control}
             render={({field}) => (
               <Input {...field} type="text" placeholder="Author name" /> 
             )}
              />
+                   <p className="text-red-500 text-sm">{errors.authorName?.message}</p>
                <Controller
             name="file"
             control={control}
             render={({field:{onChange,ref}}) => (
-              <Input  ref={ref} onChange={(e) => onChange(e.target.files?.[0])} type="file" placeholder="" /> 
+              <Input ref={ref} onChange={(e) => onChange(e.target.files?.[0])} type="file" placeholder="" /> 
             )}
              />
-            <Button type="submit">Submit</Button>
+            <p className="text-red-500 text-sm">{errors.file?.message}</p>
+            <Button type="submit">Submit <Loader2 className={clsx('text-white',mutation.isPending ? 'animate-spin' : 'opacity-0')} /></Button>
           </form>
         </div>
       </div>

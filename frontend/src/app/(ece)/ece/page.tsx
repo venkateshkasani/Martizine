@@ -11,11 +11,16 @@ import React from "react";
 import useStore from "@/state-management/Store";
 import { useRouter } from "next/navigation";
 import { useDebounce } from '@uidotdev/usehooks'
+import { getTokenData } from "@/controllers/mutations/auth";
+import { LoaderCircleIcon } from "lucide-react";
+import { getSaved } from "@/controllers/queries/auth";
 
 
 const page = () => {
   const searchParams = useSearchParams();
   const [search, setSearch] = React.useState<string>('')
+  const [mail, setMail] = React.useState<string>('');
+  const [role, setRole] = React.useState<string>('');
   const [userData, setUserData] = React.useState<any>('')
   const filter = useStore((state) => state.filter)
   const subject = searchParams.get('subject');
@@ -26,6 +31,12 @@ const page = () => {
      queryKey:['eceData',subject,filter,search],
      queryFn: () => eceFiles(({subject:subject!,type:filter,search}))
   })
+  const savedFiles = useQuery({
+    queryKey:['saved'],
+    queryFn:() => getSaved(mail??''),
+    enabled:!!mail,
+    staleTime:0,
+  })
   const handleSearchInput = (value:string) => {
     setSearch(value);
   }
@@ -34,13 +45,17 @@ const page = () => {
     url.set('search',search??"")
     router.replace(`?search=${url}`,{scroll:false})
   },[debounce,router])
-  const sessionData = JSON.parse(sessionStorage.getItem('userData')??'{}');
+  const user = getTokenData();
+  refetch();
   const handleSave = () => {
-    refetch();
     console.log("handlesave triggered")
   }
   React.useEffect(() => {
-    setUserData(sessionData);
+    setUserData(user);
+    const usermail = sessionStorage.getItem('userEmail')
+    const userRole = sessionStorage.getItem('userRole')
+    setMail(usermail!);
+    setRole(userRole!);
   },[])
   React.useEffect(() => {
   refetch();
@@ -49,22 +64,33 @@ const page = () => {
     <div className="h-full px-2 sm:px-8">
         <div className="h-full px-2 sm:px-6 md:px-8">
       <div className="flex gap-2 w-full items-center hover:cursor-pointer">
-       <AddFileButton />
        <Searchbar callBackFunction={handleSearchInput} />
       </div>
         </div>
       <div className="flex justify-center items-center">
       <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 py-5">
-      {data?.map((obj:any,index:number) => {
-            const fileName = obj.file.split('-').slice(1).join('-');
-            const date = obj.uploadedAt;
-            const dateObj = new Date(date);
-            const dateString = dateObj.toUTCString().split(' ').slice(0,4).join(' ');
-            const saved:boolean = userData.savedFiles?.includes(obj._id);
-           return (
-            <PDFViewer handleSave={handleSave} _id={obj._id} saved={saved} key={index} src={process.env.NEXT_PUBLIC_BASE_URL + `/public/uploads/${obj.file}`} name={fileName} date={dateString} author={obj.author} />
-           )
-        })}
+          {isLoading ?
+          <div className="flex justify-center items-center w-[90vw] h-[60vh]">
+          <LoaderCircleIcon size={50} color="green" className="animate-spin" />
+          </div>
+           :
+           (
+             data.length > 0 ? data?.map((obj:any,index:number) => {
+              const fileName = obj.file.split('-').slice(1).join('-');
+              const date = obj.uploadedAt;
+              const dateObj = new Date(date);
+              const dateString = dateObj.toUTCString().split(' ').slice(0,4).join(' ');
+              const arr = savedFiles?.data?.map((obj:any) => {
+                return obj._id;
+              })
+              const saved:boolean = arr?.includes(obj._id);
+             return (
+              <PDFViewer email={mail} fileData={obj} handleSave={handleSave} _id={obj._id} saved={saved} key={index} src={process.env.NEXT_PUBLIC_BASE_URL + `/public/uploads/${obj.file}`} name={fileName} date={dateString} author={obj.author} />
+             )
+          }
+           ) : <div className="text-md sm:text-lg text-gray-400 col-span-full">No data found.</div>
+      )
+        }
       </div>
       </div>
       </div>

@@ -1,51 +1,43 @@
 'use client'
 import { Undo, View } from "lucide-react";
 import {Page, Document} from "react-pdf";
+import { pdfjs } from 'react-pdf';
 import React from "react";
 import clsx from "clsx";
-import { QueryClient, useMutation, useQuery } from "@tanstack/react-query";
+import { QueryClient, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {saveFiles , unsaveFiles } from "@/controllers/mutations/saved.mutations";
 import { getSaved } from "@/controllers/queries/auth";
-import { Toaster } from "@/components/ui/toaster";
 import { useToast } from "@/hooks/use-toast";
-import { ToastAction } from "@/components/ui/toast";
+import { TooltipProvider,TooltipContent,TooltipTrigger,Tooltip } from "@/components/ui/tooltip";
 
-const PDFViewer = ({name,date,src,author,saved,_id,handleSave}:{name:string,date:string,src:string,author:string,saved:boolean,_id:string,handleSave:() => void}) => {
-  const [userData, setUserData] = React.useState<any>();
-  const queryClient = new QueryClient();
-  const savedFiles = useQuery({
-    queryKey:['saved',userData?.email],
-    queryFn:({queryKey}) => getSaved(queryKey[1]),
-  })
-  const {toast} = useToast(); 
+pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
+
+
+const PDFViewer = ({name,date,src,author,saved,_id,handleSave,fileData,email}:{name:string,date:string,src:string,author:string,saved:boolean,_id:string,handleSave:() => void,fileData:any,email:string}) => {
+  const queryClient = useQueryClient();
+  const {toast} = useToast();
   const save = useMutation({
     mutationKey:['save-file'],
-    mutationFn:(data:{email:string,_id:string}) => saveFiles(data),
+    mutationFn:(data:{email:string,obj:any}) => saveFiles(data),
     onSuccess:() => {
       queryClient.invalidateQueries({queryKey:['saved']})
-      savedFiles.refetch();
       console.log("Successfully saved file")
-      // queryClient.invalidateQueries({queryKey:['saved']})
     },
     onError:() => console.error("Error while saving")
   })
   const unsave = useMutation({
     mutationKey:['save-file'],
-    mutationFn:(data:{email:string,_id:string}) => unsaveFiles(data),
+    mutationFn:(data:{email:string,obj:any}) => unsaveFiles(data),
     onSuccess:() => {
       queryClient.invalidateQueries({queryKey:['saved']})
-      savedFiles.refetch();
       console.log("Successfully saved file")
-      // queryClient.invalidateQueries({queryKey:['saved']})
+      handleSave();
     },
     onError:() => console.error("Error while unsaving")
   })
-  // console.log("saved files",savedFiles.data)
   React.useEffect(() => {
     const data = JSON.parse(sessionStorage.getItem('userData') ?? "{}")
-    setUserData(data);
     console.log("session storage from PDF VIEWER",data)
-    // console.log("Saved files:",savedFiles.data)
   },[])
   return (
     <div className="relative w-fit h-fit">
@@ -58,24 +50,22 @@ const PDFViewer = ({name,date,src,author,saved,_id,handleSave}:{name:string,date
           <div 
           onClick={async () => {
             try {
-              if (savedFiles.data?.includes(_id)) {
-                await unsave.mutateAsync({ email: userData?.email, _id });
-                toast( {
+              if (saved) {
+                await unsave.mutateAsync({ email: email, obj:fileData });
+                toast({
                   title:"File Unsaved",
                   description: "This file no longer exists in your saved files",
                 })
               } else {
-                await save.mutateAsync({ email: userData?.email, _id });
-                toast( {
+                await save.mutateAsync({ email: email,obj:fileData });
+                toast({
                   title:'File Saved',
                   description: "The file is saved successfully",
                 })
               }
-              handleSave(); // This will now only run after mutation completes
+              handleSave(); // This will now only runs after mutation completes
             } catch (error) {
               console.error("Mutation failed:", error);
-            } finally {
-                
             }
           }}
            className="hover:cursor-pointer transition-all duration-300" >
@@ -88,11 +78,11 @@ const PDFViewer = ({name,date,src,author,saved,_id,handleSave}:{name:string,date
             width="24"
             height="24"
             viewBox="0 0 24 24"
-            stroke-width="2"
+            strokeWidth="2"
             stroke="red"
-            fill={savedFiles.data?.includes(_id) ? 'red' : 'white'}
-            stroke-linecap="round"
-            stroke-linejoin="round"
+            fill={saved ? 'red' : 'white'}
+            strokeLinecap="round"
+            strokeLinejoin="round"
           >
             <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
             <path
@@ -101,7 +91,16 @@ const PDFViewer = ({name,date,src,author,saved,_id,handleSave}:{name:string,date
           </svg>
           </div>
             <a href={src} download >
-            <View className="hover:cursor-pointer text-teal-600 hover:bg-teal-700 hover:text-white rounded p-1" />
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger>
+                <View className="hover:cursor-pointer text-teal-600 hover:bg-teal-700 hover:text-white rounded p-1" />
+                </TooltipTrigger>
+                <TooltipContent>
+                  View file
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
             </a>
           </div>
           <div className="absolute bottom-0 h-[40%] px-2 flex flex-col bg-neutral-500 bg-opacity-90 w-full rounded-b">

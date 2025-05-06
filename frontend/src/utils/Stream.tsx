@@ -24,6 +24,8 @@ import { Label } from "@/components/ui/label"
 import { courseType } from '@/types/Course.type'
 import { subjectsType } from '@/types/Course.type'
 import useStore from '@/state-management/Store'
+import { LoaderCircleIcon } from 'lucide-react'
+import clsx from 'clsx'
 
 const Stream = ({data,gradient}:{data:courseType,gradient:string}) => {
 
@@ -31,6 +33,7 @@ const Stream = ({data,gradient}:{data:courseType,gradient:string}) => {
         semesterNumber:0,
         subjects:[]
        })
+    const [isLoading, setIsLoading] = React.useState(false);
       const [subject, setSubject] = React.useState<string|number|boolean>();
       const updateSem = useStore((state) => state.updateSem)
       const updateSub = useStore((state) => state.updateSubject)
@@ -119,9 +122,13 @@ const Stream = ({data,gradient}:{data:courseType,gradient:string}) => {
         </div>
         <DialogFooter>
           <Link href={`${data.course.toLowerCase()}?sem=${semester.semesterNumber}&subject=${encodedSub?.toLowerCase()}`}>
-          <Button type="submit" className="hover:bg-[#4094a7]" onClick={() => {
+          <Button type="submit" className="hover:bg-[#4094a7] flex gap-1" onClick={() => {
             console.log("store values",sem, sub, branch)
-          }}>Find Resources</Button>
+            setIsLoading(!isLoading)
+          }}>
+            Find Resources
+            <LoaderCircleIcon className={clsx('opacity-0',isLoading && 'opacity-100 animate-spin')} size={24} color='white' />
+            </Button>
           </Link>
         </DialogFooter>
       </DialogContent>

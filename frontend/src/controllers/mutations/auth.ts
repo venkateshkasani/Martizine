@@ -1,5 +1,7 @@
 import axiosInstance from "@/utils/instance";
 import { userDataType } from "@/types/login";
+import { jwtDecode } from "jwt-decode";
+import Cookies from 'js-cookie'
 
 const auth = async (userData:userDataType) => {
     try {
@@ -8,6 +10,17 @@ const auth = async (userData:userDataType) => {
     } catch (e) {
         console.error("Server authentication failed",e);
     }
+}
+
+export const getTokenData = () => {
+   try {
+    const token = Cookies.get('artk');
+   if(!token) return null;
+   const userData = jwtDecode(token);
+   return userData;
+   } catch (e) {
+    console.error("Error while reading auth token")
+   }
 }
 
 export default auth;

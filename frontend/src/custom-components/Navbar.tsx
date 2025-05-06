@@ -1,45 +1,73 @@
 'use client'
 import { useEffect, useRef, useState } from "react"
-import { Menu } from "lucide-react";
+import { Menu, Router } from "lucide-react";
 import Link from "next/link";
 import clsx from "clsx";
 import { DiGithubBadge } from "react-icons/di";
-import { Avatar,AvatarFallback,AvatarImage } from "@radix-ui/react-avatar";
 import { usePathname } from "next/navigation";
 import { ChevronDown } from "lucide-react";
+import { googleLogout } from "@react-oauth/google";
+import { useRouter } from "next/navigation";
+import Cookies from "js-cookie";
+import { ShimmerButton } from "@/components/magicui/shimmer-button";
+import { DialogHeader,DialogContent, DialogTitle, DialogTrigger, Dialog,DialogClose } from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import useStore from "@/state-management/Store";
 
 const Navbar = () => {
   const [isCollapsed, setIsCollapsed] = useState<boolean>(false);
-  const [userData, setuserData] = useState<any>(() => {
-    if(typeof window != "undefined") {
-      return JSON.parse(sessionStorage.getItem('userData') || '{}')
-    } else return null;
-  });
-  const [display,setDisplay] = useState(false)
+  const loading = useStore((state) => state.loading);
   const pathname = usePathname();
   const profileRef = useRef<HTMLDivElement>(null);
+  const router = useRouter();
 
-  const handleClickOutside = (event: MouseEvent) => {
-    if (profileRef.current && !profileRef.current.contains(event.target as Node)) {
-      setDisplay(false);
-    }
-  };
+  // const handleClickOutside = (event: MouseEvent) => {
+  //   if (profileRef.current && !profileRef.current.contains(event.target as Node)) {
+  //     setDisplay(false);
+  //   }
+  // };
 
-  useEffect(() => {
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
+  // useEffect(() => {
+  //   document.addEventListener("mousedown", handleClickOutside);
+  //   return () => {
+  //     document.removeEventListener("mousedown", handleClickOutside);
+  //   };
+  // }, []);
 
-  useEffect(() => {
-    if(typeof window != 'undefined') {
-      const parsedData = JSON.parse(sessionStorage.getItem('userData') || '{}')
-      if(parsedData) {
-       setuserData(parsedData);
-      }
-    }
-  },[])
+  // useEffect(() => {
+  //   if(typeof window != 'undefined') {
+  //     const parsedData = JSON.parse(sessionStorage.getItem('userData') || '{}')
+  //     if(parsedData) {
+  //      setuserData(parsedData);
+  //     }
+  //   }
+  //   const mail = sessionStorage.getItem('userEmail')
+  //   const pic = sessionStorage.getItem('userPicture')
+  //   if(mail) {
+  //     setMailId(mail)
+  //     console.log("mail fetched successfully",mail)
+  //   } if(pic) {
+  //     setPicture(pic!)
+  //     console.log("picture got successflly",pic)
+  //   }
+  // },[])
+
+  const redirectPage = () => {
+    setIsCollapsed(false);
+    setIsRedirecting(true);
+    setTimeout(() => {
+      setIsRedirecting(false)
+    },3000)
+  }
+
+  const logout = () => {
+    console.log("logout triggered")
+    googleLogout();
+    sessionStorage.clear();
+    Cookies.remove('artk');
+    router.push('/signin');
+    setIsCollapsed(false)
+  }
 
   return (
     <div className="bg-teal-700 w-full px-5">
@@ -52,16 +80,16 @@ const Navbar = () => {
       >
         <div style={{letterSpacing:'3px'}} className="text-white flex flex-col gap-2 absolute md:relative md:flex-row md:gap-8 left-0 top-[4em] md:top-0 w-full sm:px-2 py-4">
         <div className="flex flex-col items-center sm:flex-row z-50 w-[100vw] sm:w-fit gap-10 bg-teal-700"> 
-          <Link href={'/'}>
+          <Link href={'/'} onClick={() => redirectPage()} className={clsx(pathname=='/signin' && 'hidden')}>
           <div className={clsx('hover:cursor-pointer',pathname=='/' && 'font-bold text-whitesmoke')}>Home</div>
           </Link> 
-          <Link href={'/saved'}>
+          <Link href={'/saved'} onClick={() => redirectPage()} className={clsx(pathname=='/signin' && 'hidden')}>
           <div className={clsx('hover:cursor-pointer',pathname=='/saved' && 'font-bold text-whitesmoke')}>Saved Files</div>
           </Link>
-          <Link href={'/about'}>
+          <Link href={'/about'} onClick={() => redirectPage()}>
           <div className={clsx('hover:cursor-pointer',pathname=='/about' && 'font-bold text-whitesmoke')}>About Us</div>
           </Link>
-          <Link href={'/contribute'}>
+          <Link href={'/contribute'} onClick={() => redirectPage()}>
           <div className={clsx('hover:cursor-pointer',pathname=='/contribute' && 'font-bold text-whitesmoke')}>
             <span className="flex gap-1 items-center pb-5 sm:pb-0">
               <DiGithubBadge className="text-white" size={20} />
@@ -69,21 +97,25 @@ const Navbar = () => {
             </span>
           </div>
           </Link>
-          </div>
-          <div>
-            {/* <img src={'/'}  width={'300px'} height={'300px'} /> */}
-          </div>
-          <div ref={profileRef}  className="relative" onClick={() => setDisplay(!display)}>
-          <div className="flex items-center gap-1 hover:cursor-pointer" >
-          <Avatar>
-           <AvatarImage src={userData?.picture} className="w-1/4 h-1/4" />
-           {/* <AvatarFallback>{userData?.picture}</AvatarFallback> */}
-           <AvatarFallback>{userData?.name?.slice(0,1)}</AvatarFallback>
-          </Avatar>
-          <ChevronDown size={15} className={clsx('transition-transform duration-300',display ? 'rotate-180' : 'rotate-0')} />
-          </div>
-          <div className={clsx("flex flex-col gap-2 bg-gray-200 hover:bg-slate-200 py-3 px-5 rounded-sm mt-1 absolute",display ? 'block' : 'hidden')}>
-            <span className="text-center rounded p-1 text-black text-xs hover:cursor-pointer">Logout</span>
+          <div className={clsx("",pathname=='/signin' && 'hidden')}>
+          <Dialog>
+            <DialogTrigger>
+            <ShimmerButton shimmerDuration="4" className="text-center rounded py-2 px-4 text-white text-xs hover:cursor-pointer mb-5 sm:mb-0">Logout</ShimmerButton>
+            </DialogTrigger>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle className="text-center">Are you sure want to Logout ?</DialogTitle>
+              </DialogHeader>
+              <div className="flex gap-3 items-center justify-center">
+              <DialogClose>
+              <Button className="w-fit px-5 py-1 bg-red-600">No</Button>
+              </DialogClose>
+              <DialogClose>
+              <Button className="w-fit px-5 py-1 bg-green-600" onClick={logout}>Yes</Button>
+              </DialogClose>
+              </div>
+            </DialogContent>
+          </Dialog>
           </div>
           </div>
         </div>
@@ -92,6 +124,12 @@ const Navbar = () => {
           <Menu size={26} className="text-white md:hidden" />
         </div>
       </div>
+      
+      {loading && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-sm bg-black/10">
+          <div className="w-16 h-16 border-4 border-gray-300 border-t-blue-500 rounded-full animate-spin" />
+        </div>
+      )}
     </div>
   )
 }

@@ -6,6 +6,7 @@ const useStore = create<useStoreType>((set) => ({
   sem:'',
   subject:'',
   filter:'',
+  loading:false,
   updateBranch: (updatedBranch:string) => set({branch: updatedBranch}),
   updateSem: (updatedSem:string) => set({sem: updatedSem}),
   updateSubject: (updatedSubject:string) => set({subject: updatedSubject}),
@@ -13,6 +14,7 @@ const useStore = create<useStoreType>((set) => ({
     console.log("filter updated globally",updatedFilter)
     set({filter:updatedFilter})
   },
+  updateLoading:(isLoading:boolean) => set({loading:isLoading})
 }))
 
 export default useStore;
