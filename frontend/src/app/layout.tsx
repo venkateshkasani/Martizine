@@ -21,7 +21,7 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-const roboto_mono = Roboto_Mono({
+const roboto = Roboto_Mono({
     variable:"--fot-roboto-mono",
     subsets:["latin"],
     display:"swap",
@@ -46,7 +46,7 @@ export default function RootLayout({
     <GoogleOAuthProvider clientId={process.env.GOOGE_OAUTH_CLIENT_ID??""}>
       <html lang="en">
       <body
-        className={`${roboto_mono.variable} ${roboto_mono.variable} antialiased bg-slate-100`}
+        className={`${roboto.variable} ${roboto.variable} antialiased bg-slate-100`}
       >
         <TanstackProvider>
           <Toaster />
