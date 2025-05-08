@@ -310,6 +310,14 @@ getRouter.get('/get-eee',async (req,res) => {
     }
 })
 
+getRouter.get('/hello',async (req,res) => {
+    try {
+        res.json({"message":"Hello there"})
+    } catch (e) {
+        res.json({"message":"error occured"})
+    }
+})
+
 app.use(cors());
 
 module.exports = getRouter;
