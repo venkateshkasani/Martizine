@@ -11,7 +11,6 @@ import {
 } from "@/components/ui/dropdown-menu"
 import React from "react"
 import useStore from "@/state-management/Store"
-import { useSearchParams } from "next/navigation"
 import AddFileButton from "./AddFileButton"
 
 const Searchbar = ({callBackFunction}:{callBackFunction:(a:string) => void}) => {
