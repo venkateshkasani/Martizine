@@ -5,7 +5,7 @@ export const aidsFiles = async (query:{subject:string|undefined,type:string|unde
       const res = await axiosInstance.get('/api/get-aids',{
          params:{subject:query.subject,type:query.type,search:query.search}
       });
-      console.log("here is the response",res.data)
+      console.log("here is the response aids",res.data)
       return res.data;
    } catch (e) {
     console.log("Error while fetching resources",e)

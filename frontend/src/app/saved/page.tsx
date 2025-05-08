@@ -1,21 +1,20 @@
   "use client";
-  import AddFileButton from "@/custom-components/AddFileButton";
   import Searchbar from "@/custom-components/Searchbar";
   import React from "react";
-  import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-  import { getFilterSaved, getSaved, getUserData } from "@/controllers/queries/auth";
+  import { useQuery } from "@tanstack/react-query";
+  import { getFilterSaved, getUserData } from "@/controllers/queries/auth";
   import PDFViewer from "@/custom-components/PDFViewer";
   import useStore from "@/state-management/Store";
   import { useSearchParams } from "next/navigation";
   import { useRouter } from "next/navigation";
   import { useDebounce } from "@uidotdev/usehooks";
   import { LoaderCircleIcon } from "lucide-react";
+import { getSubjectsArray } from "@/types/Course.type";
 
-  const page = () => {
+  const Page = () => {
     const searchParams = useSearchParams();
     const [search, setSearch] = React.useState<string>('')
     const [mail, setMail] = React.useState<string>('');
-    const [role,setRole] = React.useState<string>('')
     const filter = useStore((state) => state.filter)
     const subject = searchParams.get('subject');
     const debounce = useDebounce(search,300);
@@ -29,14 +28,13 @@
      setLoading(false);
     },[])
     
-    const {data,isLoading, refetch, isRefetching} = useQuery({
+    const {data,isLoading, refetch } = useQuery({
       queryKey:['saved',subject,filter,search],
       queryFn: () => getFilterSaved(({email:mail!,type:filter,search}))
     })
     const handleSearchInput = (value:string) => {
       setSearch(value);
     }
-    // refetch();
     const handleSave = () => {
       console.log("handlesave triggered")
       refetch();
@@ -50,8 +48,6 @@
     React.useEffect(() => {
       const usermail = sessionStorage.getItem('userEmail')
       setMail(usermail!);
-      const userRole = sessionStorage.getItem('userRole');
-      setRole(userRole!);
       console.log("usercall",userCall.data)
     },[])
     React.useEffect(() => {
@@ -71,14 +67,14 @@
       <LoaderCircleIcon className="text-5xl text-black animate-spin" />
     </div> :
             (
-              data?.length > 0 ? data?.map((obj:any,index:number) => {
+              data?.length > 0 ? data?.map((obj:getSubjectsArray,index:number) => {
                 const fileName = obj.file.split('-').slice(1).join('-');
                 const date = obj.uploadedAt;
                 const dateObj = new Date(date);
                 const dateString = dateObj.toUTCString().split(' ').slice(0,4).join(' ');
                 const saved:boolean = true;
               return (
-                <PDFViewer email={mail} fileData={obj} handleSave={handleSave}  saved={saved}  _id={obj.id} key={index} src={process.env.NEXT_PUBLIC_BASE_URL + `/public/uploads/${obj.file}`} name={fileName} date={dateString} author={obj.author} />
+                <PDFViewer email={mail} fileData={obj} handleSave={handleSave}  saved={saved}  _id={obj._id} key={index} src={process.env.NEXT_PUBLIC_BASE_URL + `/public/uploads/${obj.file}`} name={fileName} date={dateString} author={obj.authorName} />
               )
             }) : <p className="text-slate-400 text-center w-full col-span-full">No results found</p>
             )
@@ -89,4 +85,4 @@
     );
   };
 
-  export default page;
+  export default Page;

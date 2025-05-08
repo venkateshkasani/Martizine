@@ -3,7 +3,7 @@ import React from "react";
 import { CheckBoxChunkCallback } from "@/types/ComponentProps";
 
 const CheckboxChunk = ({callBackFunction}:{callBackFunction:(data:CheckBoxChunkCallback) => void}) => {
-    const [state,setState] = React.useState({one:false,two:false,three:false,four:false,five:false})
+    const [state,setState] = React.useState<CheckBoxChunkCallback>({one:false,two:false,three:false,four:false,five:false})
     
     return (
         <div className="">

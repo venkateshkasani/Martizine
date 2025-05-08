@@ -11,7 +11,7 @@ import { contributeSchema } from "@/utils/ZodValidations";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {z} from 'zod'
 
-const page = () => {
+const Page = () => {
   const {toast} = useToast();
   const {handleSubmit, control,reset, formState:{errors}} = useForm({
     resolver:zodResolver(contributeSchema),
@@ -75,4 +75,4 @@ const page = () => {
     )
 }
 
-export default page;
+export default Page;

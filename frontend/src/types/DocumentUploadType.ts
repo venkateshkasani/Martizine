@@ -1,7 +1,10 @@
 export type documentDetailsType = {
-    subjectName:string,
+    branch:string,
+    type:string,
+    semester:string,
+    subject:string,
     chapters:string,
-    regulation:string,
-    filters:'',
-    file:File|null
+    tags:[string],
+    authorName:string,
+    file:File|null,
 }

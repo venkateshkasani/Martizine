@@ -8,7 +8,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 
-const page = () => {
+const Page = () => {
   return (
     <section>
       <div className="w-full flex flex-col items-center pt-5">
@@ -58,4 +58,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

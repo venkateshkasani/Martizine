@@ -3,23 +3,21 @@ import { GoogleLogin } from "@react-oauth/google"
 import Cookies from "js-cookie"
 import { useRouter } from "next/navigation"
 import {jwtDecode, JwtPayload} from 'jwt-decode'
-import { useState } from "react"
 import { useMutation } from "@tanstack/react-query"
-import { userDataType } from "@/types/login"
+import { loginCredentials, userDataType } from "@/types/login"
 import auth from "@/controllers/mutations/auth"
 import { AuroraText } from "@/components/magicui/aurora-text"
 import Footer from "@/custom-components/Footer"
 import LandingSection from "@/custom-components/LandingSection"
 import { Quote } from "lucide-react"
 
-const page = () => {
+const Page = () => {
   interface CustomJwtPayload extends JwtPayload {
     name?: string;
     email?: string;
     picture?: string;
   }
   const router = useRouter();
-  const userData = useState("");
   const mutation = useMutation({
     mutationKey: ["auth"],
     mutationFn: (userData: userDataType) => auth(userData),
@@ -31,20 +29,20 @@ const page = () => {
     },
     onError:() => console.error("Mutation failed")
   });
-  const handleLogin = (creds: any) => {
-    Cookies.set("artk", creds.credential, {
+  const handleLogin = (creds: loginCredentials) => {
+    console.log("handlelogin type",creds)
+    Cookies.set("artk", creds?.credential!, {
       expires: 7,
       path: "/",
       sameSite: "strict",
       secure: true,
     });
     if (creds) {
-      const decoded = jwtDecode<CustomJwtPayload>(creds.credential);
+      const decoded = jwtDecode<CustomJwtPayload>(creds.credential!);
       console.log("decoded creds", decoded)
       const { name, email, picture } = decoded
       sessionStorage.setItem('userPicture',picture!)
       mutation.mutate({ name:name??"", email:email??"", picture:picture??"", savedFiles: [] });
-      // sessionStorage.setItem("userData", JSON.stringify(decoded));
     }
   };
   return (
@@ -89,7 +87,7 @@ const page = () => {
             <div className="bg-slate-200 flex flex-col sm:flex-row gap-4 items-center justify-center w-full py-10 px-5 sm:px-0">
               <div>
                 <p className="font-semibold text-3xl sm:text-5xl">Everything You Need. Instantly.</p>
-              <p className="py-10 w-[95vw] sm:w-[60vw] text-lg sm:text-xl">Download reliable, verified study materials in seconds—anytime, anywhere. Whether it's the night before or weeks ahead, your resources are always within reach.</p>
+              <p className="py-10 w-[95vw] sm:w-[60vw] text-lg sm:text-xl">{"Download reliable, verified study materials in seconds—anytime, anywhere. Whether it's the night before or weeks ahead, your resources are always within reach."}</p>
               </div>
               <img src="/pikachu.png" className="h-[70%] w-[70%] sm:w-1/4 sm:h-1/4" />
             </div>
@@ -98,7 +96,7 @@ const page = () => {
          <div className="bg-slate-300 flex flex-col items-center justify-center bg-opacity-65 w-full rounded-2xl p-5 sm:rounded-full min-h-[30vh]">
          <div className="font-bold text-4xl flex justify-center w-full min-w-full"><Quote /></div>
            <div className="flex justify-center">
-           <p>"This is a small effort from one of the students to help them get instant access to important notes and previous question papers." </p><br/>
+           <p>{"This is a small effort from one of the students to help them get instant access to important notes and previous question papers." }</p><br/>
            </div>
            <span className="sm:text-center">Designed and Developed by <span className="text-black inline font-semibold">Venkatesh Kasani</span></span>
          </div>
@@ -113,4 +111,4 @@ const page = () => {
   )
 }
 
-export default page
+export default Page

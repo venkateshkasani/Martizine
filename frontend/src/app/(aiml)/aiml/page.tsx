@@ -9,19 +9,16 @@ import React from "react";
 import { useDebounce } from "@uidotdev/usehooks";
 import useStore from "@/state-management/Store";
 import { useRouter } from "next/navigation";
-import AddFileButton from "@/custom-components/AddFileButton";
 import Searchbar from "@/custom-components/Searchbar";
-import { getTokenData } from "@/controllers/mutations/auth";
 import { LoaderCircleIcon } from "lucide-react";
 import { getSaved } from "@/controllers/queries/auth";
+import { getSubjectsArray } from "@/types/Course.type";
 
 
-const page = () => {
+const Page = () => {
   const searchParams = useSearchParams();
   const [search, setSearch] = React.useState<string>('')
   const [mail, setMail] = React.useState<string>('');
-  const [role, setRole] = React.useState<string>('');
-  const [userData, setUserData] = React.useState<any>('')
   const filter = useStore((state) => state.filter)
   const subject = searchParams.get('subject');
   const debounce = useDebounce(search,300);
@@ -45,17 +42,13 @@ const page = () => {
     url.set('search',search??"")
     router.replace(`?search=${url}`,{scroll:false})
   },[debounce,router])
-  const user = getTokenData();
   refetch();
   const handleSave = () => {
     console.log("handlesave triggered")
   }
   React.useEffect(() => {
-    setUserData(user);
     const usermail = sessionStorage.getItem('userEmail')
     setMail(usermail!);
-    const userRole = sessionStorage.getItem('userRole');
-    setRole(userRole!);
   },[])
   React.useEffect(() => {
   refetch();
@@ -75,17 +68,17 @@ const page = () => {
         </div>
          :
          (
-           data.length > 0 ? data?.map((obj:any,index:number) => {
+           data.length > 0 ? data?.map((obj:getSubjectsArray,index:number) => {
             const fileName = obj.file.split('-').slice(1).join('-');
             const date = obj.uploadedAt;
             const dateObj = new Date(date);
             const dateString = dateObj.toUTCString().split(' ').slice(0,4).join(' ');
-            const arr = savedFiles?.data?.map((obj:any) => {
+            const arr = savedFiles?.data?.map((obj:getSubjectsArray) => {
               return obj._id;
             })
             const saved:boolean = arr?.includes(obj._id);
            return (
-            <PDFViewer email={mail} fileData={obj} handleSave={handleSave} _id={obj._id} saved={saved} key={index} src={process.env.NEXT_PUBLIC_BASE_URL + `/public/uploads/${obj.file}`} name={fileName} date={dateString} author={obj.author} />
+            <PDFViewer email={mail} fileData={obj} handleSave={handleSave} _id={obj._id} saved={saved} key={index} src={process.env.NEXT_PUBLIC_BASE_URL + `/public/uploads/${obj.file}`} name={fileName} date={dateString} author={obj.authorName} />
            )
         }
          ) : <div className="text-md sm:text-lg text-gray-400 col-span-full">No data found.</div>
@@ -97,4 +90,4 @@ const page = () => {
     )
   }
 
-  export default page
+  export default Page

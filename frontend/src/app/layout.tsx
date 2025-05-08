@@ -5,21 +5,7 @@ import "./globals.css";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import Navbar from "@/custom-components/Navbar";
 import TanstackProvider from "@/utils/TanstackProvider";
-import AddFileButton from "@/custom-components/AddFileButton";
-import Searchbar from "@/custom-components/Searchbar";
-import Footer from "@/custom-components/Footer";
 import { Toaster } from "@/components/ui/toaster";
-
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
 
 const roboto = Roboto_Mono({
     variable:"--fot-roboto-mono",

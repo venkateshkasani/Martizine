@@ -1,7 +1,7 @@
 export type loginCredentials = {
-   clientId:string,
-   select_by:string,
-   credential:string
+   clientId?:string |undefined,
+   select_by?:string|undefined,
+   credential?:string|undefined,
 }
 
 export type userDataType = {

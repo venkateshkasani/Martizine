@@ -1,6 +1,5 @@
 "use client";
 import React from "react";
-import {z} from 'zod'
 import {zodResolver} from '@hookform/resolvers/zod';
 import { Input } from "@/components/ui/input";
 import {
@@ -13,7 +12,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { getCourses } from "@/controllers/queries/subjects.queries";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { subjectsType } from "@/types/Course.type";
+import { courseDetails, subjectsType } from "@/types/Course.type";
 import CheckboxChunk from "@/custom-components/CheckboxChunk";
 import MultiInput from "@/custom-components/MultiInput";
 import {useForm, Controller} from 'react-hook-form'
@@ -23,9 +22,11 @@ import { uploadSchema } from "@/utils/ZodValidations";
 import { Loader2 } from "lucide-react";
 import clsx from "clsx";
 import { useToast } from "@/hooks/use-toast";
+import { documentDetailsType } from "@/types/DocumentUploadType";
+import { CheckboxProps } from "@radix-ui/react-checkbox";
 
 
-const page = () => {
+const Page = () => {
   const streams = useQuery({
     queryKey: ["getAllCourses"],
     queryFn: async () => getCourses(),
@@ -46,10 +47,10 @@ const page = () => {
   
   
   const streamsData = streams.data;
-  const [branchData, setBranchData] = React.useState<any>();
-  const [semSubjects, setSemSubjects] = React.useState<any>();
+  const [branchData, setBranchData] = React.useState<courseDetails>();
+  const [semSubjects, setSemSubjects] = React.useState<string[]>();
   const [tags, setTags] = React.useState<string[]>(['']);
-  const [chapters, setChapters] = React.useState<any>({});
+  const [chapters, setChapters] = React.useState<CheckBoxChunkCallback>();
   const {toast} = useToast();
   const authorname = watch('authorName');
   React.useEffect(() => {
@@ -97,7 +98,7 @@ const page = () => {
     },
   });
 
-  const onSubmit = (data:any) => {
+  const onSubmit = (data:documentDetailsType) => {
     let formData = new FormData();
     formData.append('type',data.type)
     formData.append('semester',data.semester)
@@ -143,8 +144,7 @@ const page = () => {
           {...field}
           onValueChange={(value) => {
             field.onChange(value)
-            const current =
-              streamsData?.filter((stream) => stream.course == value) || [];
+            const current = streamsData?.filter((stream) => stream.course == value) || [];
             setBranchData(current[0]);
           }}
           value={field.value}
@@ -211,12 +211,10 @@ const page = () => {
        render={({field}) => (
         <Select
         {...field}
-        onValueChange={(value) => {
+        onValueChange={(value:string) => {
           field.onChange(value);
-          const subjects: string[] =
-            branchData?.sem_subjects[
-              `sem${value}` as keyof subjectsType
-            ] || [];
+          const key = `sem${value}` as keyof subjectsType;
+const subjects: string[] = branchData?.sem_subjects[key] || [];
           setSemSubjects(subjects);
         }}
         value={field.value}
@@ -297,5 +295,5 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;
 
