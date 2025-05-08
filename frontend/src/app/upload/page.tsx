@@ -37,7 +37,7 @@ const Page = () => {
       type:'',
       semester:'',
       subject:'',
-      chapters:[''],
+      chapters:[],
       tags:[''],
       authorName:'',
       file:undefined
