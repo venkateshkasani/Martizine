@@ -74,7 +74,7 @@ import { getSubjectsArray } from "@/types/Course.type";
                 const dateString = dateObj.toUTCString().split(' ').slice(0,4).join(' ');
                 const saved:boolean = true;
               return (
-                <PDFViewer email={mail} fileData={obj} handleSave={handleSave}  saved={saved}  _id={obj._id} key={index} src={process.env.NEXT_PUBLIC_BASE_URL + `/public/uploads/${obj.file}`} name={fileName} date={dateString} author={obj.authorName} />
+                <PDFViewer email={mail} fileData={obj} handleSave={handleSave}  saved={saved} key={index} src={process.env.NEXT_PUBLIC_BASE_URL + `/public/uploads/${obj.file}`} name={fileName} date={dateString} author={obj.authorName} />
               )
             }) : <p className="text-slate-400 text-center w-full col-span-full">No results found</p>
             )
