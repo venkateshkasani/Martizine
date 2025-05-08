@@ -31,6 +31,6 @@ export const getUserData = async (email:string) => {
     const res = await axiosInstance.post('/api/getTokenData',{email});
     return res.data;
   }  catch (e) {
-     console.log("Error while fetching user details");
+     console.log("Error while fetching user details",e);
   }
 }

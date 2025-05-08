@@ -1,24 +1,24 @@
 'use client'
-import { Undo, View } from "lucide-react";
+import { View } from "lucide-react";
 import {Page, Document} from "react-pdf";
 import { pdfjs } from 'react-pdf';
 import React from "react";
 import clsx from "clsx";
-import { QueryClient, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import {saveFiles , unsaveFiles } from "@/controllers/mutations/saved.mutations";
-import { getSaved } from "@/controllers/queries/auth";
 import { useToast } from "@/hooks/use-toast";
 import { TooltipProvider,TooltipContent,TooltipTrigger,Tooltip } from "@/components/ui/tooltip";
+import { getSubjectsArray } from "@/types/Course.type";
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
 
 
-const PDFViewer = ({name,date,src,author,saved,_id,handleSave,fileData,email}:{name:string,date:string,src:string,author:string,saved:boolean,_id:string,handleSave:() => void,fileData:any,email:string}) => {
+const PDFViewer = ({name,date,src,author,saved,handleSave,fileData,email}:{name:string,date:string,src:string,author:string,saved:boolean,handleSave:() => void,fileData:getSubjectsArray,email:string}) => {
   const queryClient = useQueryClient();
   const {toast} = useToast();
   const save = useMutation({
     mutationKey:['save-file'],
-    mutationFn:(data:{email:string,obj:any}) => saveFiles(data),
+    mutationFn:(data:{email:string,obj:getSubjectsArray}) => saveFiles(data),
     onSuccess:() => {
       queryClient.invalidateQueries({queryKey:['saved']})
       console.log("Successfully saved file")
@@ -27,7 +27,7 @@ const PDFViewer = ({name,date,src,author,saved,_id,handleSave,fileData,email}:{n
   })
   const unsave = useMutation({
     mutationKey:['save-file'],
-    mutationFn:(data:{email:string,obj:any}) => unsaveFiles(data),
+    mutationFn:(data:{email:string,obj:getSubjectsArray}) => unsaveFiles(data),
     onSuccess:() => {
       queryClient.invalidateQueries({queryKey:['saved']})
       console.log("Successfully saved file")

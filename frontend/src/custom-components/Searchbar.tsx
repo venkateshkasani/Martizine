@@ -15,15 +15,10 @@ import { useSearchParams } from "next/navigation"
 import AddFileButton from "./AddFileButton"
 
 const Searchbar = ({callBackFunction}:{callBackFunction:(a:string) => void}) => {
-  const [chapters,setChapters] = React.useState([]);
   const [fil,setFil] = React.useState<string>('');
   const [role,setRole] = React.useState<string>();
   const filter = useStore((state) => state.filter)
-  const searchParams = useSearchParams();
   const updateFilter = useStore((state) => state.updateFilter)
-  const handleChapters = (data:any) => {
-    setChapters(data);
-  }
   React.useEffect(() => {
     const userRole = sessionStorage.getItem('userRole');
     setRole(userRole!);

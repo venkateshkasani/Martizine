@@ -1,4 +1,5 @@
 'use client'
+import { semSubjects } from "@/types/Course.type";
 import axiosInstance from "@/utils/instance";
 
 // api calling functions
@@ -6,7 +7,7 @@ import axiosInstance from "@/utils/instance";
 interface responseType {
     course:string,
     uploadedAt:string,
-    sem_subjects:any,
+    sem_subjects:semSubjects,
     _id:string
 }
 

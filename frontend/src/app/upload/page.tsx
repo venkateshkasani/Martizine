@@ -22,8 +22,7 @@ import { uploadSchema } from "@/utils/ZodValidations";
 import { Loader2 } from "lucide-react";
 import clsx from "clsx";
 import { useToast } from "@/hooks/use-toast";
-import { documentDetailsType } from "@/types/DocumentUploadType";
-import { CheckboxProps } from "@radix-ui/react-checkbox";
+import {z} from 'zod'
 
 
 const Page = () => {
@@ -59,7 +58,7 @@ const Page = () => {
   React.useEffect(() => {
     console.log("updated sem subjects", semSubjects);
   }, [semSubjects]);
-  const updateTags = (data:any) => {
+  const updateTags = (data:string[]) => {
      setTags(data);
   }
   const currentBranch = watch('branch')
@@ -98,8 +97,10 @@ const Page = () => {
     },
   });
 
-  const onSubmit = (data:documentDetailsType) => {
-    let formData = new FormData();
+  type docType = z.infer<typeof uploadSchema>
+
+  const onSubmit = (data:docType) => {
+    const formData = new FormData();
     formData.append('type',data.type)
     formData.append('semester',data.semester)
     formData.append('subjectName',data.subject);
@@ -135,7 +136,7 @@ const Page = () => {
           Please maintain PDF Format only.
         </p>
         <div className="py-5 w-full flex justify-center">
-          <form className="flex flex-col gap-2 w-2/3 max-w-2/3 sm:w-1/2 sm:max-w-1/2 md:w-1/4 max-w-1/4 h-fit" onSubmit={handleSubmit(onSubmit,(errors) => console.log("errors",errors))}>
+          <form className="flex flex-col gap-2 w-2/3 max-w-2/3 sm:w-1/2 sm:max-w-1/2 md:w-1/4 max-w-1/4 h-fit" onSubmit={handleSubmit(onSubmit)}>
           <Controller
         name="branch"
         control={control}

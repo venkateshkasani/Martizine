@@ -1,21 +1,13 @@
 'use client'
-import { useQueryClient,useQuery } from "@tanstack/react-query"
+import { useQuery } from "@tanstack/react-query"
 import { getCourses } from "@/controllers/queries/subjects.queries"
 import Stream from "@/utils/Stream"
-import { useState } from "react"
 import { Loader2 } from "lucide-react"
 import clsx from "clsx"
 
 
 const Streams = () => {
-  const [semester, setSemester] = useState<{semesterNumber:string,subject:string}>({
-   semesterNumber:'',
-   subject:''
-  })
-  
-  const [course,setCourse] = useState<any>();
-  const client = useQueryClient();
-  
+    
   const streams = useQuery({
       queryKey:['getAllCourses'],
       queryFn: async() => getCourses()

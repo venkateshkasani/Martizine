@@ -19,7 +19,7 @@ export const getTokenData = () => {
    const userData = jwtDecode(token);
    return userData;
    } catch (e) {
-    console.error("Error while reading auth token")
+    console.error("Error while reading auth token",e)
    }
 }
 

@@ -1,11 +1,10 @@
 'use client'
-import { useEffect, useRef, useState } from "react"
-import { Menu, Router } from "lucide-react";
+import { useState } from "react"
+import { Menu } from "lucide-react";
 import Link from "next/link";
 import clsx from "clsx";
 import { DiGithubBadge } from "react-icons/di";
 import { usePathname } from "next/navigation";
-import { ChevronDown } from "lucide-react";
 import { googleLogout } from "@react-oauth/google";
 import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
@@ -16,49 +15,18 @@ import useStore from "@/state-management/Store";
 
 const Navbar = () => {
   const [isCollapsed, setIsCollapsed] = useState<boolean>(false);
+  // const [isRedirecting, setIsRedirecting] = useState<boolean>(false);
   const loading = useStore((state) => state.loading);
   const pathname = usePathname();
-  const profileRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
 
-  // const handleClickOutside = (event: MouseEvent) => {
-  //   if (profileRef.current && !profileRef.current.contains(event.target as Node)) {
-  //     setDisplay(false);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   document.addEventListener("mousedown", handleClickOutside);
-  //   return () => {
-  //     document.removeEventListener("mousedown", handleClickOutside);
-  //   };
-  // }, []);
-
-  // useEffect(() => {
-  //   if(typeof window != 'undefined') {
-  //     const parsedData = JSON.parse(sessionStorage.getItem('userData') || '{}')
-  //     if(parsedData) {
-  //      setuserData(parsedData);
-  //     }
-  //   }
-  //   const mail = sessionStorage.getItem('userEmail')
-  //   const pic = sessionStorage.getItem('userPicture')
-  //   if(mail) {
-  //     setMailId(mail)
-  //     console.log("mail fetched successfully",mail)
-  //   } if(pic) {
-  //     setPicture(pic!)
-  //     console.log("picture got successflly",pic)
-  //   }
-  // },[])
-
-  const redirectPage = () => {
-    setIsCollapsed(false);
-    setIsRedirecting(true);
-    setTimeout(() => {
-      setIsRedirecting(false)
-    },3000)
-  }
+  // const redirectPage = () => {
+  //   setIsCollapsed(false);
+  //   setIsRedirecting(true);
+  //   setTimeout(() => {
+  //     setIsRedirecting(false)
+  //   },3000)
+  // }
 
   const logout = () => {
     console.log("logout triggered")
@@ -80,16 +48,16 @@ const Navbar = () => {
       >
         <div style={{letterSpacing:'3px'}} className="text-white flex flex-col gap-2 absolute md:relative md:flex-row md:gap-8 left-0 top-[4em] md:top-0 w-full sm:px-2 py-4">
         <div className="flex flex-col items-center sm:flex-row z-50 w-[100vw] sm:w-fit gap-10 bg-teal-700"> 
-          <Link href={'/'} onClick={() => redirectPage()} className={clsx(pathname=='/signin' && 'hidden')}>
+          <Link href={'/'}  className={clsx(pathname=='/signin' && 'hidden')}>
           <div className={clsx('hover:cursor-pointer',pathname=='/' && 'font-bold text-whitesmoke')}>Home</div>
           </Link> 
-          <Link href={'/saved'} onClick={() => redirectPage()} className={clsx(pathname=='/signin' && 'hidden')}>
+          <Link href={'/saved'}  className={clsx(pathname=='/signin' && 'hidden')}>
           <div className={clsx('hover:cursor-pointer',pathname=='/saved' && 'font-bold text-whitesmoke')}>Saved Files</div>
           </Link>
-          <Link href={'/about'} onClick={() => redirectPage()}>
+          <Link href={'/about'} >
           <div className={clsx('hover:cursor-pointer',pathname=='/about' && 'font-bold text-whitesmoke')}>About Us</div>
           </Link>
-          <Link href={'/contribute'} onClick={() => redirectPage()}>
+          <Link href={'/contribute'} >
           <div className={clsx('hover:cursor-pointer',pathname=='/contribute' && 'font-bold text-whitesmoke')}>
             <span className="flex gap-1 items-center pb-5 sm:pb-0">
               <DiGithubBadge className="text-white" size={20} />

@@ -37,7 +37,7 @@ const Stream = ({data,gradient}:{data:courseType,gradient:string}) => {
       const [subject, setSubject] = React.useState<string|number|boolean>();
       const updateSem = useStore((state) => state.updateSem)
       const updateSub = useStore((state) => state.updateSubject)
-      const updateBranch = useStore((state:any) => state.updateBranch);
+      const updateBranch = useStore((state) => state.updateBranch);
       const sem = useStore((state) => state.sem);
       const sub = useStore((state) => state.subject);
       let encodedSub = encodeURIComponent(sub);

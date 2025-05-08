@@ -10,7 +10,6 @@ import React from "react";
 import { useDebounce } from "@uidotdev/usehooks";
 import useStore from "@/state-management/Store";
 import { useRouter } from "next/navigation";
-import { getTokenData } from "@/controllers/mutations/auth";
 import { LoaderCircleIcon } from "lucide-react";
 import { getSaved } from "@/controllers/queries/auth";
 import { getSubjectsArray } from "@/types/Course.type";

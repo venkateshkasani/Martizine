@@ -31,12 +31,14 @@ const Page = () => {
   });
   const handleLogin = (creds: loginCredentials) => {
     console.log("handlelogin type",creds)
-    Cookies.set("artk", creds?.credential!, {
-      expires: 7,
-      path: "/",
-      sameSite: "strict",
-      secure: true,
-    });
+    if(creds.credential) {
+      Cookies.set("artk", creds.credential, {
+        expires: 7,
+        path: "/",
+        sameSite: "strict",
+        secure: true,
+      });
+    }
     if (creds) {
       const decoded = jwtDecode<CustomJwtPayload>(creds.credential!);
       console.log("decoded creds", decoded)

@@ -29,7 +29,7 @@ export type getSubjectsArray = {
     _id:string,
 }
 
-type semSubjects = {
+export type semSubjects = {
     sem1:string[],
     sem2:string[],
     sem3:string[],

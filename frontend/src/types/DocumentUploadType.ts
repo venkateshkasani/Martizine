@@ -3,8 +3,8 @@ export type documentDetailsType = {
     type:string,
     semester:string,
     subject:string,
-    chapters:string,
-    tags:[string],
+    chapters:boolean[],
+    tags:string[],
     authorName:string,
-    file:File|null,
+    file:File,
 }

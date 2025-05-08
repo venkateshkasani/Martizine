@@ -5,7 +5,7 @@ export const uploadSchema = z.object({
     type:z.string({message:"Select a branch"}),
     semester:z.string({message:"Select a semester"}),
     subject:z.string({message:"Select a subject"}),
-    chapters:z.array(z.string()).optional(),
+    chapters:z.array(z.boolean()).optional(),
     tags:z.array(z.string()).optional(),
     authorName:z.string({message:"Enter author name"}),
     file: z
