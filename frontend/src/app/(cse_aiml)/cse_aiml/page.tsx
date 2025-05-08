@@ -78,7 +78,7 @@ const Page = () => {
             })
             const saved:boolean = arr?.includes(obj._id);
            return (
-            <PDFViewer email={mail} fileData={obj} handleSave={handleSave} _id={obj._id} saved={saved} key={index} src={process.env.NEXT_PUBLIC_BASE_URL + `/public/uploads/${obj.file}`} name={fileName} date={dateString} author={obj.authorName} />
+            <PDFViewer email={mail} fileData={obj} handleSave={handleSave} saved={saved} key={index} src={process.env.NEXT_PUBLIC_BASE_URL + `/public/uploads/${obj.file}`} name={fileName} date={dateString} author={obj.authorName} />
            )
         }
          ) : <div className="text-md sm:text-lg text-gray-400 col-span-full">No data found.</div>
