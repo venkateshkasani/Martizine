@@ -9,7 +9,7 @@ const authRouter = require('./routes/auth')
 
 const app = express();
 app.use(express.json())
-const allowedOrigins = ['http://localhost:3000'];
+const allowedOrigins = ['http://localhost:3000','https://martizine.onrender.com'];
 app.use(
     cors({
         origin: function (origin, callback) {
