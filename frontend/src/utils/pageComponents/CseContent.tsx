@@ -12,13 +12,13 @@ import { LoaderCircleIcon } from "lucide-react";
 import { getSaved } from "@/controllers/queries/auth";
 import { getSubjectsArray } from "@/types/Course.type";
 
-pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
+pdfjs.GlobalWorkerOptions.workerSrc = '/pdf-worker.js';
 
 const CseContent = () => {
   const searchParams = useSearchParams();
   const [search, setSearch] = React.useState<string>('')
   const [mail, setMail] = React.useState<string>('');
-  const filter = useStore((state) => state.filter)
+  const filter = useStore((state) => state.filter);
   const subject = searchParams.get('subject');
   const debounce = useDebounce(search,300);
   const router = useRouter();
