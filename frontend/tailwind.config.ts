@@ -9,8 +9,14 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   safelist: [
-    'animate-aurora',
+	{
+	  pattern: /animate-.+/,
+	},
+	{
+	  pattern: /aurora/,
+	}
   ],
+  
   theme: {
   	extend: {
   		colors: {

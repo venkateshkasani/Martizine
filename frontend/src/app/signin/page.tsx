@@ -57,6 +57,7 @@ const Page = () => {
       <div className="w-16 h-16 border-4 border-blue-500 border-t-transparent rounded-full animate-spin" />
     </div>}
           <div className="bg-gradient-to-br from-teal-50 to-slate-200 h-fit min-h-[100vh] w-[100vw] px-5 flex flex-col items-center">
+            <p className="text-4xl animate-aurora font-bold">ANimation text</p>
        <AuroraText className="text-center w-2/3 text-3xl sm:w-full sm:text-4xl md:text-6xl lg:text-7xl font-bold sm:font-extrabold pt-8">Simplify Your Exam Prep.</AuroraText>
        <AuroraText className="text-center w-2/3 text-3xl sm:w-full sm:text-4xl md:text-6xl lg:text-7xl font-bold sm:font-extrabold pt-8">Get Notes & Previous Papers!</AuroraText>
        <div className="flex flex-col items-center gap-5 w-full">
