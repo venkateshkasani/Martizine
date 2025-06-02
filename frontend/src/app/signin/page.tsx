@@ -10,8 +10,10 @@ import { AuroraText } from "@/components/magicui/aurora-text"
 import Footer from "@/custom-components/Footer"
 import LandingSection from "@/custom-components/LandingSection"
 import { Quote } from "lucide-react"
+import React from "react"
 
 const Page = () => {
+  const [loading, setLoading] = React.useState(false)
   interface CustomJwtPayload extends JwtPayload {
     name?: string;
     email?: string;
@@ -23,7 +25,7 @@ const Page = () => {
     mutationFn: (userData: userDataType) => auth(userData),
     onSuccess:(data) => {
       console.log("user data is ",data)
-      router.replace('/')
+      handleLogin(data)
       sessionStorage.setItem('userRole',data.role);
       sessionStorage.setItem('userEmail',data.email);
     },
@@ -38,6 +40,8 @@ const Page = () => {
         sameSite: "strict",
         secure: true,
       });
+      setLoading(true);
+      router.push('/');
     }
     if (creds) {
       const decoded = jwtDecode<CustomJwtPayload>(creds.credential!);
@@ -49,6 +53,9 @@ const Page = () => {
   };
   return (
      <section className="">
+      {loading && <div className="fixed inset-0 z-50 flex items-center justify-center bg-white/30 backdrop-blur-sm">
+      <div className="w-16 h-16 border-4 border-blue-500 border-t-transparent rounded-full animate-spin" />
+    </div>}
           <div className="bg-gradient-to-br from-teal-50 to-slate-200 h-fit min-h-[100vh] w-[100vw] px-5 flex flex-col items-center">
        <AuroraText className="text-center w-2/3 text-3xl sm:w-full sm:text-4xl md:text-6xl lg:text-7xl font-bold sm:font-extrabold pt-8">Simplify Your Exam Prep.</AuroraText>
        <AuroraText className="text-center w-2/3 text-3xl sm:w-full sm:text-4xl md:text-6xl lg:text-7xl font-bold sm:font-extrabold pt-8">Get Notes & Previous Papers!</AuroraText>

@@ -15,18 +15,9 @@ import useStore from "@/state-management/Store";
 
 const Navbar = () => {
   const [isCollapsed, setIsCollapsed] = useState<boolean>(false);
-  // const [isRedirecting, setIsRedirecting] = useState<boolean>(false);
   const loading = useStore((state) => state.loading);
   const pathname = usePathname();
   const router = useRouter();
-
-  // const redirectPage = () => {
-  //   setIsCollapsed(false);
-  //   setIsRedirecting(true);
-  //   setTimeout(() => {
-  //     setIsRedirecting(false)
-  //   },3000)
-  // }
 
   const logout = () => {
     console.log("logout triggered")
@@ -76,10 +67,10 @@ const Navbar = () => {
               </DialogHeader>
               <div className="flex gap-3 items-center justify-center">
               <DialogClose>
-              <Button className="w-fit px-5 py-1 bg-red-600">No</Button>
+              <Button className="w-fit px-5 py-1 bg-slate-200 text-black">No</Button>
               </DialogClose>
               <DialogClose>
-              <Button className="w-fit px-5 py-1 bg-green-600" onClick={logout}>Yes</Button>
+              <Button className="w-fit px-5 py-1 bg-primary" onClick={logout}>Yes</Button>
               </DialogClose>
               </div>
             </DialogContent>
