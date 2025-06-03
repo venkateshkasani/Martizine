@@ -1,12 +1,12 @@
-// import { Suspense } from "react";
+import { Suspense } from "react";
 import SavedContent from "@/utils/pageComponents/SavedContent";
 
   const Page = () => {
     return (
       <div>
-        {/* <Suspense> */}
+        <Suspense>
         <SavedContent />
-        {/* </Suspense> */}
+        </Suspense>
       </div>
     )
   }

@@ -1,12 +1,12 @@
-// import { Suspense } from "react";
+import { Suspense } from "react";
 import CseContent from "@/utils/pageComponents/CseContent";
 
 const Page = () => {
   return (
     <div>
-      {/* <Suspense> */}
+      <Suspense>
       <CseContent />
-      {/* </Suspense> */}
+      </Suspense>
     </div>
   )
 }

@@ -1,12 +1,12 @@
-// import { Suspense } from "react"
+import { Suspense } from "react"
 import AimlContent from "@/utils/pageComponents/AimlContent"
 
 const Page = () => {
   return (
     <div>
-      {/* <Suspense> */}
+      <Suspense>
       <AimlContent />
-      {/* </Suspense> */}
+      </Suspense>
     </div>
   )
 }

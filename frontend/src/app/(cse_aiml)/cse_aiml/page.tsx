@@ -1,4 +1,4 @@
-// import { Suspense } from "react"
+import { Suspense } from "react"
 import CseAimlContent from "@/utils/pageComponents/CseAimlContent"
 
 
@@ -6,9 +6,9 @@ import CseAimlContent from "@/utils/pageComponents/CseAimlContent"
 const Page = () => {
   return (
     <div>
-     {/* <Suspense> */}
+     <Suspense>
      <CseAimlContent />
-     {/* </Suspense> */}
+     </Suspense>
     </div>
   )
 }
