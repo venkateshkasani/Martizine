@@ -51,7 +51,6 @@ const Page = () => {
   const [tags, setTags] = React.useState<string[]>(['']);
   const [chapters, setChapters] = React.useState<CheckBoxChunkCallback>();
   const {toast} = useToast();
-  const authorname = watch('authorName');
   React.useEffect(() => {
     // console.log("data updated, branch data:", branchData);
   }, [branchData]);

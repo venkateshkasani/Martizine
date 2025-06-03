@@ -35,10 +35,6 @@ const PDFViewer = ({name,date,src,author,saved,handleSave,fileData,email}:{name:
     },
     onError:() => console.error("Error while unsaving")
   })
-  React.useEffect(() => {
-    const data = JSON.parse(sessionStorage.getItem('userData') ?? "{}")
-    // console.log("session storage from PDF VIEWER",data)
-  },[])
   return (
     <div className="relative w-fit h-fit">
           <Document file={src} className='bg-white w-fit px-5 rounded' > 

@@ -38,10 +38,10 @@ const Stream = ({data,gradient}:{data:courseType,gradient:string}) => {
       const updateSem = useStore((state) => state.updateSem)
       const updateSub = useStore((state) => state.updateSubject)
       const updateBranch = useStore((state) => state.updateBranch);
-      const sem = useStore((state) => state.sem);
+      // const sem = useStore((state) => state.sem);
       const sub = useStore((state) => state.subject);
       let encodedSub = encodeURIComponent(sub);
-      const branch = useStore((state) => state.branch);
+      // const branch = useStore((state) => state.branch);
 
       const updateStream = (val:string) => {
         // console.log("curr branch is",val);

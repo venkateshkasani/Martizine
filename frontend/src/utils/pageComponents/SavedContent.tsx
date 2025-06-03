@@ -19,10 +19,10 @@ const SavedContent = () => {
   const subject = searchParams.get('subject');
   const debounce = useDebounce(search,300);
   const router = useRouter();
-  const userCall = useQuery({
-    queryKey:['userdata'],
-    queryFn:() => getUserData(mail),
-  })
+  // const userCall = useQuery({
+  //   queryKey:['userdata'],
+  //   queryFn:() => getUserData(mail),
+  // })
   const setLoading = useStore((state) => state.updateLoading);
    React.useEffect(() => {
    setLoading(false);
