@@ -1,12 +1,12 @@
-import { Suspense } from "react"
+// import { Suspense } from "react"
 import AidsContent from "@/utils/pageComponents/AidsContent"
 
 const Page = () => {
     return (
       <div>
-       <Suspense>
+       {/* <Suspense> */}
         <AidsContent />
-       </Suspense>
+       {/* </Suspense> */}
       </div>
     )
   }

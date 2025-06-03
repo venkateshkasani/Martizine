@@ -11,7 +11,7 @@ const useStore = create<useStoreType>((set) => ({
   updateSem: (updatedSem:string) => set({sem: updatedSem}),
   updateSubject: (updatedSubject:string) => set({subject: updatedSubject}),
   updateFilter:(updatedFilter:string) => {
-    console.log("filter updated globally",updatedFilter)
+    // console.log("filter updated globally",updatedFilter)
     set({filter:updatedFilter})
   },
   updateLoading:(isLoading:boolean) => set({loading:isLoading})

@@ -21,7 +21,7 @@ const PDFViewer = ({name,date,src,author,saved,handleSave,fileData,email}:{name:
     mutationFn:(data:{email:string,obj:getSubjectsArray}) => saveFiles(data),
     onSuccess:() => {
       queryClient.invalidateQueries({queryKey:['saved']})
-      console.log("Successfully saved file")
+      // console.log("Successfully saved file")
     },
     onError:() => console.error("Error while saving")
   })
@@ -30,14 +30,14 @@ const PDFViewer = ({name,date,src,author,saved,handleSave,fileData,email}:{name:
     mutationFn:(data:{email:string,obj:getSubjectsArray}) => unsaveFiles(data),
     onSuccess:() => {
       queryClient.invalidateQueries({queryKey:['saved']})
-      console.log("Successfully saved file")
+      // console.log("Successfully saved file")
       handleSave();
     },
     onError:() => console.error("Error while unsaving")
   })
   React.useEffect(() => {
     const data = JSON.parse(sessionStorage.getItem('userData') ?? "{}")
-    console.log("session storage from PDF VIEWER",data)
+    // console.log("session storage from PDF VIEWER",data)
   },[])
   return (
     <div className="relative w-fit h-fit">

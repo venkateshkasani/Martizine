@@ -44,7 +44,7 @@ const Stream = ({data,gradient}:{data:courseType,gradient:string}) => {
       const branch = useStore((state) => state.branch);
 
       const updateStream = (val:string) => {
-        console.log("curr branch is",val);
+        // console.log("curr branch is",val);
         updateBranch(val)
       }
 
@@ -59,19 +59,19 @@ const Stream = ({data,gradient}:{data:courseType,gradient:string}) => {
         const semesterSubjects:string[] = data?.sem_subjects[`sem${value}` as keyof subjectsType] || [];
         setSemester(() => ({semesterNumber: value, subjects: semesterSubjects }));
         updateSem(val);
-        console.log("changed semester and subs",data?.sem_subjects)
+        // console.log("changed semester and subs",data?.sem_subjects)
     }
 
     const handleSubject = (sub:string) => {
        setSubject(sub);
        updateSub(sub);
-       console.log("subject change",sub);
+      //  console.log("subject change",sub);
     }
 
   return (
     <Card className={`shadow-lg bg-gradient-to-br ${gradient} text-white my-4 w-[100%] sm:w-[45vw] md:w-[25vw] flex items-center justify-center`} onClick={() => updateStream(data.course)}>
            <Dialog>
-      <DialogTrigger asChild onClick={() => console.log("clicked me")}>
+      <DialogTrigger asChild >
       <div className="w-full h-full flex justify-center hover:cursor-pointer"><p className="p-8">{data?.course}</p></div>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
@@ -110,7 +110,7 @@ const Stream = ({data,gradient}:{data:courseType,gradient:string}) => {
             </Label>
     <Select onValueChange={(val) => handleSubject(val)}>
       <SelectTrigger className="w-[180px]">
-        <SelectValue placeholder="Select Subject" onSelect={(e) => console.log("selected",e.target)}/>
+        <SelectValue placeholder="Select Subject"/>
       </SelectTrigger>
       <SelectContent>
         <SelectGroup className="text-gray-700">
@@ -123,7 +123,7 @@ const Stream = ({data,gradient}:{data:courseType,gradient:string}) => {
         <DialogFooter>
           <Link href={`${data.course.toLowerCase()}?sem=${semester.semesterNumber}&subject=${encodedSub?.toLowerCase()}`}>
           <Button type="submit" className="hover:bg-[#4094a7] flex gap-1" onClick={() => {
-            console.log("store values",sem, sub, branch)
+            // console.log("store values",sem, sub, branch)
             setIsLoading(!isLoading)
           }}>
             Find Resources

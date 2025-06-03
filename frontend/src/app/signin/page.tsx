@@ -24,7 +24,7 @@ const Page = () => {
     mutationKey: ["auth"],
     mutationFn: (userData: userDataType) => auth(userData),
     onSuccess:(data) => {
-      console.log("user data is ",data)
+      // console.log("user data is ",data)
       handleLogin(data)
       sessionStorage.setItem('userRole',data.role);
       sessionStorage.setItem('userEmail',data.email);
@@ -32,7 +32,7 @@ const Page = () => {
     onError:() => console.error("Mutation failed")
   });
   const handleLogin = (creds: loginCredentials) => {
-    console.log("handlelogin type",creds)
+    // console.log("handlelogin type",creds)
     if(creds.credential) {
       Cookies.set("artk", creds.credential, {
         expires: 7,
@@ -45,7 +45,7 @@ const Page = () => {
     }
     if (creds) {
       const decoded = jwtDecode<CustomJwtPayload>(creds.credential!);
-      console.log("decoded creds", decoded)
+      // console.log("decoded creds", decoded)
       const { name, email, picture } = decoded
       sessionStorage.setItem('userPicture',picture!)
       mutation.mutate({ name:name??"", email:email??"", picture:picture??"", savedFiles: [] });
@@ -57,7 +57,6 @@ const Page = () => {
       <div className="w-16 h-16 border-4 border-blue-500 border-t-transparent rounded-full animate-spin" />
     </div>}
           <div className="bg-gradient-to-br from-teal-50 to-slate-200 h-fit min-h-[100vh] w-[100vw] px-5 flex flex-col items-center">
-            <p className="text-4xl animate-aurora font-bold">ANimation text</p>
        <AuroraText className="text-center w-2/3 text-3xl sm:w-full sm:text-4xl md:text-6xl lg:text-7xl font-bold sm:font-extrabold pt-8">Simplify Your Exam Prep.</AuroraText>
        <AuroraText className="text-center w-2/3 text-3xl sm:w-full sm:text-4xl md:text-6xl lg:text-7xl font-bold sm:font-extrabold pt-8">Get Notes & Previous Papers!</AuroraText>
        <div className="flex flex-col items-center gap-5 w-full">

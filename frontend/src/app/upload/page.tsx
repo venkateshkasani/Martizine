@@ -53,10 +53,10 @@ const Page = () => {
   const {toast} = useToast();
   const authorname = watch('authorName');
   React.useEffect(() => {
-    console.log("data updated, branch data:", branchData);
+    // console.log("data updated, branch data:", branchData);
   }, [branchData]);
   React.useEffect(() => {
-    console.log("updated sem subjects", semSubjects);
+    // console.log("updated sem subjects", semSubjects);
   }, [semSubjects]);
   const updateTags = (data:string[]) => {
      setTags(data);
@@ -80,7 +80,7 @@ const Page = () => {
       }
     },
     onSuccess: () => {
-      console.log("Upload success!");
+      // console.log("Upload success!");
       reset();
       window.location.reload();
       toast({
@@ -110,10 +110,7 @@ const Page = () => {
     if(data.file) {
       formData.append('file',data.file)
     }
-    console.log("triggered submit")
-    for (const [key, value] of formData.entries()) {
-      console.log(`${key}:`, value);
-    }
+    // console.log("triggered submit")
     mutation.mutate(formData);
     reset();
   }
@@ -121,13 +118,6 @@ const Page = () => {
   const handleChapters = (data:CheckBoxChunkCallback) => {
     setChapters(data);
   }
-
-  React.useEffect(() => {
-   console.log("tags effect",tags)
-  },[tags])
-  React.useEffect(() => {
-   console.log("authorname changed",authorname)
-  },[authorname])
   
   return (
     <section className="h-fit bg-gray-100">

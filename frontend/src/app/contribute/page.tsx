@@ -39,7 +39,7 @@ const Page = () => {
   })
   type schemaType = z.infer<typeof contributeSchema>
   const onSubmit = (data:schemaType) => {
-    console.log("formdata",data)
+    // console.log("formdata",data)
     mutation.mutate({name:data.fullname,message:data.message})
   }
     return(

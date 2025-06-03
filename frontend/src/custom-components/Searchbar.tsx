@@ -24,7 +24,7 @@ const Searchbar = ({callBackFunction}:{callBackFunction:(a:string) => void}) => 
   },[])
 
   React.useEffect(() => {
-    console.log("Filter update",filter)
+    // console.log("Filter update",filter)
     setFil(filter)
   },[filter])
   

@@ -48,10 +48,10 @@ const SavedContent = () => {
   React.useEffect(() => {
     const usermail = sessionStorage.getItem('userEmail')
     setMail(usermail!);
-    console.log("usercall",userCall.data)
+    // console.log("usercall",userCall.data)
   },[])
   React.useEffect(() => {
-    console.log("Filter updated")
+    // console.log("Filter updated")
   refetch();
   },[filter])
   return (

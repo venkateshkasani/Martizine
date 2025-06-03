@@ -1,13 +1,13 @@
-import { Suspense } from "react"
+// import { Suspense } from "react"
 import EceContent from "@/utils/pageComponents/EceContent"
 
 
 const Page = () => {
   return (
     <div>
-      <Suspense>
+      {/* <Suspense> */}
         <EceContent />
-      </Suspense>
+      {/* </Suspense> */}
     </div>
   )
 }

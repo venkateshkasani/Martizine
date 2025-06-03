@@ -20,7 +20,7 @@ const Navbar = () => {
   const router = useRouter();
 
   const logout = () => {
-    console.log("logout triggered")
+    // console.log("logout triggered")
     googleLogout();
     sessionStorage.clear();
     Cookies.remove('artk');

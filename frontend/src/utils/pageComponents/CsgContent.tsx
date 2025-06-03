@@ -47,7 +47,7 @@ const CsgContent = () => {
   }
   React.useEffect(() => {
     const usermail = sessionStorage.getItem('userEmail')
-    console.log("usermail",mail)
+    // console.log("usermail",mail)
     setMail(usermail!);
   },[])
   React.useEffect(() => {

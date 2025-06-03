@@ -1,7 +1,7 @@
 import axiosInstance from "@/utils/instance"
 
 export const getSaved = async (email:string) => {
-   console.log("fe got email",email)
+   // console.log("fe got email",email)
      try {
         const res = await axiosInstance.get('/api/saved',{
          params:{email}
@@ -14,7 +14,7 @@ export const getSaved = async (email:string) => {
 }
 
 export const getFilterSaved = async ({email,type,search}:{email:string,type:string,search:string}) => {
-   console.log("fe got email for filterd saved call",email)
+   // console.log("fe got email for filterd saved call",email)
      try {
         const res = await axiosInstance.get('/api/filteredSaved',{
          params:{email,type,search}
@@ -31,6 +31,6 @@ export const getUserData = async (email:string) => {
     const res = await axiosInstance.post('/api/getTokenData',{email});
     return res.data;
   }  catch (e) {
-     console.log("Error while fetching user details",e);
+     console.error("Error while fetching user details",e);
   }
 }

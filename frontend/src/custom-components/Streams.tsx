@@ -13,7 +13,7 @@ const Streams = () => {
       queryFn: async() => getCourses()
   })
 
-  console.log("streams",streams.data)
+  // console.log("streams",streams.data)
 
   const streamsData = streams.data;
   const isLoading = streams.isLoading;
