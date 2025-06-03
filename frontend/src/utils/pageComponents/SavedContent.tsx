@@ -2,7 +2,7 @@
 import Searchbar from "@/custom-components/Searchbar";
 import React from "react";
 import { useQuery } from "@tanstack/react-query";
-import { getFilterSaved, getUserData } from "@/controllers/queries/auth";
+import { getFilterSaved } from "@/controllers/queries/auth";
 import PDFViewer from "@/custom-components/PDFViewer";
 import useStore from "@/state-management/Store";
 import { useSearchParams } from "next/navigation";
