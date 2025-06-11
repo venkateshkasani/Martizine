@@ -1,2 +1,3 @@
-/frontend/.env
-/backend/.env
+# Ignore all real env files
+**/.env
+**/.env.*    # Ignores .env.local, .env.production, etc., but keeps .env.example
