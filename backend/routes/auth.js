@@ -47,10 +47,11 @@ authRouter.get('/saved', async (req, res) => {
 });
 
 authRouter.get('/filteredSaved', async (req, res) => {
+  console.log("called filtersave")
   try {
       const { email,type,search } = req.query;
       if (!email) {
-          console.warn("⚠️ No email provided in query");
+          console.warn("⚠️ No email provided in query",email);
           return res.status(400).json({ response: "Email is required" });
       }
       const user = await authModel.findOne({ email });
@@ -68,9 +69,10 @@ authRouter.get('/filteredSaved', async (req, res) => {
         })
           return res.status(200).json(filtered);
       }
+      console.log("user not found")
       return res.status(404).json({ response: "User not found" });
   } catch (e) {
-      console.error("Error while fetching filtered saved files", e);
+      console.log("Error while fetching filtered saved files", e);
       res.status(500).json({ response: "Error while fetching filtered saved files" });
   }
 });

@@ -14,7 +14,6 @@ export const getSaved = async (email:string) => {
 }
 
 export const getFilterSaved = async ({email,type,search}:{email:string,type:string,search:string}) => {
-   // console.log("fe got email for filterd saved call",email)
      try {
         const res = await axiosInstance.get('/api/filteredSaved',{
          params:{email,type,search}

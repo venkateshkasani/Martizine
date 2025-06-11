@@ -19,19 +19,17 @@ const SavedContent = () => {
   const subject = searchParams.get('subject');
   const debounce = useDebounce(search,300);
   const router = useRouter();
-  // const userCall = useQuery({
-  //   queryKey:['userdata'],
-  //   queryFn:() => getUserData(mail),
-  // })
   const setLoading = useStore((state) => state.updateLoading);
    React.useEffect(() => {
    setLoading(false);
   },[])
   
-  const {data,isLoading, refetch } = useQuery({
-    queryKey:['saved',subject,filter,search],
-    queryFn: () => getFilterSaved(({email:mail!,type:filter,search}))
+  const {data, isLoading, refetch } = useQuery({
+    queryKey:['saved',subject,filter,search,mail],
+    queryFn: () => getFilterSaved(({email:sessionStorage.getItem('userEmail')!,type:filter,search})),
+    enabled:!!mail
   })
+  console.log("data",data)
   const handleSearchInput = (value:string) => {
     setSearch(value);
   }
@@ -47,11 +45,10 @@ const SavedContent = () => {
   },[debounce,router])
   React.useEffect(() => {
     const usermail = sessionStorage.getItem('userEmail')
+    console.log("got userEmail",usermail)
     setMail(usermail!);
-    // console.log("usercall",userCall.data)
   },[])
   React.useEffect(() => {
-    // console.log("Filter updated")
   refetch();
   },[filter])
   return (

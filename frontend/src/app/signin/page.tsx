@@ -48,6 +48,8 @@ const Page = () => {
       // console.log("decoded creds", decoded)
       const { name, email, picture } = decoded
       sessionStorage.setItem('userPicture',picture!)
+      sessionStorage.setItem('userName',name!)
+      sessionStorage.setItem('userEmail',email!)
       mutation.mutate({ name:name??"", email:email??"", picture:picture??"", savedFiles: [] });
     }
   };
